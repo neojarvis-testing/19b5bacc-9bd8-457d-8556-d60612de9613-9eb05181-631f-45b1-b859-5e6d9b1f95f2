@@ -7,6 +7,7 @@ namespace dotnetapp.Models
 {
     public class UserRoles
     {
-        
+        public const string Gardener = "Gardener";
+        public const string Customer = "Customer";
     }
 }
