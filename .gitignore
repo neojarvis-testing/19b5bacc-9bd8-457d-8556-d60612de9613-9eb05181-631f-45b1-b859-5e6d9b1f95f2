@@ -1,0 +1,19 @@
+# BackEnd Files
+
+dotnetapp/Migrations/
+
+dotnetapp/cred.sh
+
+#Front End Files
+
+reactapp/node_modules
+
+reactapp/src/apiConfig.js
+
+reactapp/package-lock.json
+
+# Other Files
+
+/nunit
+/react
+
