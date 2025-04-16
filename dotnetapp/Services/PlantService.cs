@@ -29,11 +29,8 @@ namespace dotnetapp.Services
 
         public async Task<bool> AddPlant(Plant plant)
         {
-            var existingPlant = await _context.Plants.FirstOrDefaultAsync(p => p.Name == plant.Name);
-            if (existingPlant != null) 
-            {
-                return false;
-            }
+            // var existingPlant = await _context.Plants.FindAsync(plant.Name);
+            
             
             _context.Plants.Add(plant);
             await _context.SaveChangesAsync();
