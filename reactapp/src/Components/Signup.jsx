@@ -1,111 +1,189 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Signup.css'; // Make sure to create this CSS file
 
 const Signup = () => {
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [mobileNumber, setMobileNumber] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [userRole, setUserRole] = useState('');
+    const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        mobileNumber: '',
+        password: '',
+        confirmPassword: '',
+        userRole: ''
+    });
+    const [errors, setErrors] = useState({});
     const [message, setMessage] = useState('');
     const [showModal, setShowModal] = useState(false);
 
+    const validateForm = () => {
+        const errors = {};
+        if (!formData.username.trim()) {
+            errors.username = 'User Name is required';
+        }
+        if (!formData.email.trim()) {
+            errors.email = 'Email is required';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            errors.email = 'Invalid email format';
+        }
+        if (!formData.mobileNumber.trim()) {
+            errors.mobileNumber = 'Mobile number is required';
+        } else if (!/^\d{10}$/.test(formData.mobileNumber)) {
+            errors.mobileNumber = 'Invalid mobile number';
+        }
+        if (!formData.password.trim()) {
+            errors.password = 'Password is required';
+        }
+        if (!formData.confirmPassword.trim()) {
+            errors.confirmPassword = 'Confirm Password is required';
+        } else if (formData.password !== formData.confirmPassword) {
+            errors.confirmPassword = 'Passwords do not match';
+        }
+        if (!formData.userRole.trim()) {
+            errors.userRole = 'Role is required';
+        }
+        return errors;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (password !== confirmPassword) {
-            setMessage('Passwords do not match');
-            return;
-        }
-        try {
-            const response = await axios.post('/api/register', { username, email, mobileNumber, password, userRole });
-            setShowModal(true);
-        } catch (error) {
-            setMessage('Signup failed. Please try again.');
+        const validationErrors = validateForm();
+        setErrors(validationErrors);
+        if (Object.keys(validationErrors).length === 0) {
+            try {
+                const response = await axios.post('/api/register', formData);
+                setShowModal(true);
+            } catch (error) {
+                setMessage('Signup failed. Please try again.');
+            }
         }
     };
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
+
     return (
-        <div>
-            <h2>Signup</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Username:</label>
-                    <input 
-                        type="text" 
-                        value={username} 
-                        onChange={(e) => setUsername(e.target.value)} 
-                        placeholder="Username" 
-                        required 
-                    />
-                    {!username && <p>User Name is required</p>}
-                </div>
-                <div>
-                    <label>Email:</label>
-                    <input 
-                        type="email" 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
-                        placeholder="Email" 
-                        required 
-                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                    />
-                    {!email && <p>Email is required</p>}
-                </div>
-                <div>
-                    <label>Mobile Number:</label>
-                    <input 
-                        type="text" 
-                        value={mobileNumber} 
-                        onChange={(e) => setMobileNumber(e.target.value)} 
-                        placeholder="Mobile Number" 
-                        required 
-                        pattern="^\d{10}$"
-                    />
-                    {!mobileNumber && <p>Mobile number is required</p>}
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input 
-                        type="password" 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        placeholder="Password" 
-                        required 
-                    />
-                    {!password && <p>Password is required</p>}
-                </div>
-                <div>
-                    <label>Confirm Password:</label>
-                    <input 
-                        type="password" 
-                        value={confirmPassword} 
-                        onChange={(e) => setConfirmPassword(e.target.value)} 
-                        placeholder="Confirm Password" 
-                        required 
-                    />
-                    {!confirmPassword && <p>Confirm Password is required</p>}
-                </div>
-                <div>
-                    <label>Role:</label>
-                    <select value={userRole} onChange={(e) => setUserRole(e.target.value)} required>
-                        <option value="" disabled>Please select a role</option>
-                        <option value="Customer">Customer</option>
-                        <option value="Gardener">Gardener</option>
-                    </select>
-                </div>
-                <button type="submit">Signup</button>
-            </form>
-            {message && <p>{message}</p>}
-            {showModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <p>Signup successful! Please login.</p>
-                        <button onClick={() => window.location.href = '/login'}>Ok</button>
+        <div className="container mt-5">
+            <div className="row justify-content-center">
+                <div className="col-md-6">
+                    <div className="card">
+                        <div className="card-header bg-primary text-white">Signup</div>
+                        <div className="card-body">
+                            <form onSubmit={handleSubmit}>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="username">User Name <span className="text-danger">*</span></label>
+                                    <input
+                                        type="text"
+                                        id="username"
+                                        name="username"
+                                        className="form-control"
+                                        value={formData.username}
+                                        onChange={handleChange}
+                                        placeholder="Username"
+                                        required
+                                    />
+                                    {errors.username && <small className="text-danger">{errors.username}</small>}
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="email">Email <span className="text-danger">*</span></label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        className="form-control"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        placeholder="Email"
+                                        required
+                                    />
+                                    {errors.email && <small className="text-danger">{errors.email}</small>}
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="mobileNumber">Mobile Number <span className="text-danger">*</span></label>
+                                    <input
+                                        type="text"
+                                        id="mobileNumber"
+                                        name="mobileNumber"
+                                        className="form-control"
+                                        value={formData.mobileNumber}
+                                        onChange={handleChange}
+                                        placeholder="Mobile Number"
+                                        required
+                                    />
+                                    {errors.mobileNumber && <small className="text-danger">{errors.mobileNumber}</small>}
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="password">Password <span className="text-danger">*</span></label>
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        name="password"
+                                        className="form-control"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        placeholder="Password"
+                                        required
+                                    />
+                                    {errors.password && <small className="text-danger">{errors.password}</small>}
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="confirmPassword">Confirm Password <span className="text-danger">*</span></label>
+                                    <input
+                                        type="password"
+                                        id="confirmPassword"
+                                        name="confirmPassword"
+                                        className="form-control"
+                                        value={formData.confirmPassword}
+                                        onChange={handleChange}
+                                        placeholder="Confirm Password"
+                                        required
+                                    />
+                                    {errors.confirmPassword && <small className="text-danger">{errors.confirmPassword}</small>}
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="userRole">Role <span className="text-danger">*</span></label>
+                                    <select
+                                        id="userRole"
+                                        name="userRole"
+                                        className="form-control"
+                                        value={formData.userRole}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="" disabled>Please select a role</option>
+                                        <option value="Customer">Customer</option>
+                                        <option value="Gardener">Gardener</option>
+                                    </select>
+                                    {errors.userRole && <small className="text-danger">{errors.userRole}</small>}
+                                </div>
+                                <button type="submit" className="btn btn-primary">Submit</button>
+                            </form>
+                            {message && <p className="text-danger mt-3">{message}</p>}
+                            {showModal && (
+                                <div className="modal show d-block" tabIndex="-1">
+                                    <div className="modal-dialog">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h5 className="modal-title">Signup Successful</h5>
+                                                <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                                            </div>
+                                            <div className="modal-body">
+                                                <p>Signup successful! Please login.</p>
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-primary" onClick={() => window.location.href = '/login'}>Ok</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                            <p className="mt-3">Already have an Account? <a href="/login">Login</a></p>
+                        </div>
                     </div>
                 </div>
-            )}
-            <p>Already have an Account? <a href="/login">Login</a></p>
+            </div>
         </div>
     );
 };

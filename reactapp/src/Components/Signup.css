@@ -1,0 +1,58 @@
+.container {
+    margin-top: 50px;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.text-danger {
+    color: red;
+}
+
+.modal.show {
+    display: block;
+}
+
+.modal-content {
+    padding: 20px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title {
+    margin: 0;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #000;
+    opacity: 0.5;
+}
+
+.btn-close:hover {
+    color: #000;
+    opacity: 0.75;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}

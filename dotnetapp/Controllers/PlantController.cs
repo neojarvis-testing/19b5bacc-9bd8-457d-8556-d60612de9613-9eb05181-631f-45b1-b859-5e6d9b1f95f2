@@ -10,7 +10,7 @@ using dotnetapp.Services;
 namespace dotnetapp.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/plants")]
     public class PlantController : ControllerBase
     {
         private readonly PlantService _plantService;
@@ -36,7 +36,7 @@ namespace dotnetapp.Controllers
         [HttpPost]
         public async Task<ActionResult>AddPlant([FromBody] Plant plant){
             try{
-                var result=await _plantService.AddPlant(plant);
+                var result = await _plantService.AddPlant(plant);
                 if(result){
                     return Ok("Plant added successfully");
                 }
