@@ -29,8 +29,10 @@ namespace dotnetapp.Services
 
         public async Task<bool> AddPlant(Plant plant)
         {
-            // var existingPlant = await _context.Plants.FindAsync(plant.Name);
-            
+            var existingPlant = await _context.Plants.AnyAsync(p=> p.Name == plant.Name);
+            if(existingPlant){
+                return false;
+            }
             
             _context.Plants.Add(plant);
             await _context.SaveChangesAsync();
@@ -41,6 +43,12 @@ namespace dotnetapp.Services
         {
             var existingPlant = await _context.Plants.FindAsync(plantId);
             if (existingPlant == null) return false;
+            
+            var overlappingPlant = await _context.Plants.AnyAsync(p => p.Category == plant.Category && p.PlantId != plantId);
+             if(overlappingPlant){
+                return false;
+             }
+
 
             existingPlant.Name = plant.Name;
             existingPlant.Category = plant.Category;
