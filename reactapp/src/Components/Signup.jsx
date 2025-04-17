@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Signup.css'; // Make sure to create this CSS file
+import './Signup.css';
 
 const Signup = () => {
     const [formData, setFormData] = useState({
@@ -24,15 +24,17 @@ const Signup = () => {
         if (!formData.email.trim()) {
             errors.email = 'Email is required';
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            errors.email = 'Invalid email format';
+            errors.email = 'Please enter a valid email';
         }
         if (!formData.mobileNumber.trim()) {
             errors.mobileNumber = 'Mobile number is required';
         } else if (!/^\d{10}$/.test(formData.mobileNumber)) {
-            errors.mobileNumber = 'Invalid mobile number';
+            errors.mobileNumber = 'Mobile number must be 10 digits';
         }
         if (!formData.password.trim()) {
             errors.password = 'Password is required';
+        } else if (formData.password.length < 6) {
+            errors.password = 'Password must be at least 6 characters';
         }
         if (!formData.confirmPassword.trim()) {
             errors.confirmPassword = 'Confirm Password is required';
@@ -40,7 +42,7 @@ const Signup = () => {
             errors.confirmPassword = 'Passwords do not match';
         }
         if (!formData.userRole.trim()) {
-            errors.userRole = 'Role is required';
+            errors.userRole = 'Please select a role';
         }
         return errors;
     };
@@ -152,7 +154,7 @@ const Signup = () => {
                                         onChange={handleChange}
                                         required
                                     >
-                                        <option value="" disabled>Please select a role</option>
+                                        <option value="">Please select a role</option>
                                         <option value="Customer">Customer</option>
                                         <option value="Gardener">Gardener</option>
                                     </select>
@@ -170,7 +172,7 @@ const Signup = () => {
                                                 <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
                                             </div>
                                             <div className="modal-body">
-                                                <p>Signup successful! Please login.</p>
+                                                <p>User Registration is Successful!</p>
                                             </div>
                                             <div className="modal-footer">
                                                 <button type="button" className="btn btn-primary" onClick={() => window.location.href = '/login'}>Ok</button>
