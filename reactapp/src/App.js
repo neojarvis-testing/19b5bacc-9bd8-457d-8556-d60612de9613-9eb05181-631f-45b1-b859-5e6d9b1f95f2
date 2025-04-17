@@ -1,25 +1,36 @@
 import React from 'react'
 import Login from './Components/Login'
-<<<<<<< HEAD
 import ErrorPage from './Components/ErrorPage'
-=======
 import Signup from './Components/Signup'
 import HomePage from './Components/HomePage'
->>>>>>> 1073315c01b44b0953b6d2982aaed64ef873af7a
+import GardenerNavbar from './GardenerComponents/GardenerNavbar'
+import CustomerNavbar from './CustomerComponents/CustomerNavbar'
+
+
+import { BrowserRouter } from 'react-router-dom';
+import ViewPlant from './GardenerComponents/ViewPlant'
+import PlantForm from './GardenerComponents/PlantForm'
+
 const App = () => {
   return (
+    
+<BrowserRouter>
+
     <div>
+        <CustomerNavbar/>
         <Signup />
         <Login />
+        <GardenerNavbar/>
         <HomePage />
-        <Login></Login>
-<<<<<<< HEAD
+        <ViewPlant/>
+        <PlantForm/>
+
         <ErrorPage></ErrorPage>
-=======
-         
->>>>>>> 1073315c01b44b0953b6d2982aaed64ef873af7a
         
     </div>
+    
+</BrowserRouter>
+
   )
 }
 
