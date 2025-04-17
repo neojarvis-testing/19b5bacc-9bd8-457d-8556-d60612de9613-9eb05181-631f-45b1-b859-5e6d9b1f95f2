@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Card, Button, Modal } from 'react-bootstrap'; 
 import './ViewPlant.css';
 import GardenerNavbar from './GardenerNavbar';
 

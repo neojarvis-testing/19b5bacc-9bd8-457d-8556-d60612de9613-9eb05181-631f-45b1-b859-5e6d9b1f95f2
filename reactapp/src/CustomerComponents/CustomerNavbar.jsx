@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from 'react'
 //import { Link } from 'react-router-dom'
 import { Navbar, Nav, Button } from 'react-bootstrap';
@@ -27,5 +26,3 @@ const CustomerNavbar = () => {
 }
 
 export default CustomerNavbar
-=======
->>>>>>> b5f4291e39a496d57d8d129826410e300d8d4013
