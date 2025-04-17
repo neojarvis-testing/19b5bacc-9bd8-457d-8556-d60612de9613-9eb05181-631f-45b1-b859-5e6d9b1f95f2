@@ -6,7 +6,7 @@ const HomePage = () => {
     <div>
         <img src="gardenmentorcoverimage.jfif"></img>
         <p>Discover and nurture the perfect plants for your space with expert recommendations and personalized gardening tips. Browse 
-        curated plant collections, explore trending species, and get tailored advice to make your gardening journey enjoyable and successfull</p>
+        curated plant collections, explore trending species, and get tailored advice to make your gardening journey enjoyable and successfully</p>
 
         <div>
           <h5>Contact Us</h5>

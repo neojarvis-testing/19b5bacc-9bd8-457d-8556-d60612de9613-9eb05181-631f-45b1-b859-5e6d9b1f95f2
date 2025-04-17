@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Card, Button, Modal } from 'react-bootstrap'; 
 import './ViewPlant.css';
+import GardenerNavbar from './GardenerNavbar';
 
 const ViewPlant = () => {
   const { plantId } = useParams();
@@ -40,6 +41,7 @@ const ViewPlant = () => {
 
   return (
     <Card className="plant-card">
+      <GardenerNavbar/>
       <Card.Body>
         <Card.Title>{plant.plantName}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{plant.plantType}</Card.Subtitle>
