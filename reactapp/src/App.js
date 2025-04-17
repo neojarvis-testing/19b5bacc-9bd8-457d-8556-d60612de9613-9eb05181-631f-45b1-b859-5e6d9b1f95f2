@@ -8,6 +8,8 @@ const App = () => {
         <Signup />
         <Login />
         <HomePage />
+        <Login></Login>
+         
         
     </div>
   )

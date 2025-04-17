@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import axios from 'axios';
 // import {useNavigate} from 'react-router-dom';
 
+//import {useNavigate} from 'react-router-dom';
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -9,6 +11,7 @@ const Login = () => {
     const [passwordError, setPasswordError] = useState('');
     const [message,setMessage] = useState('');
     // const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     const validateForm = () => {
         let valid = true;
@@ -37,14 +40,15 @@ const Login = () => {
                 const response = await axios.post('/api/login',{email,password});
                 const {token,role} = response.data;
                 localStorage.setItem('token',token);
-                // if(role === 'Gardener')
-                // {
-                //     navigate('/GardenerNavbar');
-                // }
-                // else if(role === 'Customer')
-                // {
-                //     navigate('/CustomerNavbar');
-                // }
+
+                if(role === 'Gardener')
+                {
+                   // navigate('/GardenerNavbar');
+                }
+                else if(role === 'Customer')
+                {
+                   // navigate('/CustomerNavbar');
+                }
 
             }catch(error)
             {
