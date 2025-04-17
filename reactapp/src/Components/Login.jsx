@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+// import {useNavigate} from 'react-router-dom';
+
+//import {useNavigate} from 'react-router-dom';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -8,7 +10,8 @@ const Login = () => {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [message,setMessage] = useState('');
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     const validateForm = () => {
         let valid = true;
@@ -37,13 +40,14 @@ const Login = () => {
                 const response = await axios.post('/api/login',{email,password});
                 const {token,role} = response.data;
                 localStorage.setItem('token',token);
+
                 if(role === 'Gardener')
                 {
-                    navigate('/GardenerNavbar');
+                   // navigate('/GardenerNavbar');
                 }
                 else if(role === 'Customer')
                 {
-                    navigate('/CustomerNavbar');
+                   // navigate('/CustomerNavbar');
                 }
 
             }catch(error)
@@ -66,7 +70,7 @@ const Login = () => {
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
             <div>
-                <label>Email:</label>
+                <label>Email</label>
                 <input 
                     type="email" 
                     value={email} 
@@ -77,7 +81,7 @@ const Login = () => {
                 {emailError && <p className="error">{emailError}</p>}
             </div>
             <div>
-                <label>Password:</label>
+                <label>Password</label>
                 <input 
                     type="password" 
                     value={password} 
