@@ -1,0 +1,19 @@
+.custom-navbar {
+    background: linear-gradient(to right, #4caf50, #8bc34a);
+  }
+  
+  .navbar-brand {
+    color: white !important;
+  }
+  
+  .dashboard-button {
+    margin-right: 10px;
+  }
+  
+  .nav-link {
+    color: white !important;
+  }
+  
+  .logout-button {
+    margin-left: auto;
+  }

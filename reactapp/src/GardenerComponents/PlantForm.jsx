@@ -2,6 +2,7 @@ import React from 'react'
 import {Form,Button} from 'react-bootstrap';
 import axios from 'axios'
 import { useState } from 'react';
+import GardenerNavbar from './GardenerNavbar';
 
 
 const PlantForm = () => {
@@ -38,6 +39,7 @@ const PlantForm = () => {
   
     return (
       <div className="plant-form">
+        <GardenerNavbar/>
         <h2>Add New Plant</h2>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formPlantName">
