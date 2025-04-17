@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+//import {useNavigate} from 'react-router-dom';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -8,7 +8,7 @@ const Login = () => {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [message,setMessage] = useState('');
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     const validateForm = () => {
         let valid = true;
@@ -39,11 +39,11 @@ const Login = () => {
                 localStorage.setItem('token',token);
                 if(role === 'Gardener')
                 {
-                    navigate('/GardenerNavbar');
+                   // navigate('/GardenerNavbar');
                 }
                 else if(role === 'Customer')
                 {
-                    navigate('/CustomerNavbar');
+                   // navigate('/CustomerNavbar');
                 }
 
             }catch(error)
