@@ -8,7 +8,7 @@ import CustomerNavbar from './CustomerComponents/CustomerNavbar'
 import { BrowserRouter } from 'react-router-dom';
 import ViewPlant from './GardenerComponents/ViewPlant'
 import PlantForm from './GardenerComponents/PlantForm'
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 const App = () => {
   return (
     
