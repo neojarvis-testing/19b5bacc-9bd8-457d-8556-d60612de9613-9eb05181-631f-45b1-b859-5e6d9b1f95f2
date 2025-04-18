@@ -1,9 +1,5 @@
 import React from 'react'
 import Login from './Components/Login'
-<<<<<<< HEAD
-import Signup from './Components/Signup'
-import HomePage from './Components/HomePage'
-=======
 import ErrorPage from './Components/ErrorPage'
 import Signup from './Components/Signup'
 import HomePage from './Components/HomePage'
@@ -13,7 +9,6 @@ import { BrowserRouter } from 'react-router-dom';
 import ViewPlant from './GardenerComponents/ViewPlant'
 import PlantForm from './GardenerComponents/PlantForm'
 import 'bootstrap/dist/css/bootstrap.min.css';
->>>>>>> 0942c71775de6fc4ac4222fc8e26157bfff678ae
 const App = () => {
   return (
     
@@ -27,12 +22,7 @@ const App = () => {
         <ViewPlant/>
         <PlantForm/>
         <Login></Login>
-<<<<<<< HEAD
-         
-        
-=======
         <ErrorPage></ErrorPage>
->>>>>>> 0942c71775de6fc4ac4222fc8e26157bfff678ae
     </div>
 </BrowserRouter>
 
