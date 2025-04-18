@@ -1,6 +1,9 @@
 
 .container {
-    margin-top: 50px;
+    
+    background: url('/home/coder/project/workspace/reactapp/public/background1.jpg') no-repeat center center;
+    background-size: cover;  
+    background-position: center;
 }
 
 .card-header {
@@ -56,4 +59,20 @@
 .btn-primary:hover {
     background-color: #0056b3;
     border-color: #0056b3;
+}
+.mt-3{
+    color:black
+}
+.card-body{
+    background: url('/home/coder/project/workspace/reactapp/public/background3.png') no-repeat center center;
+    background-size: cover;  
+    background-position: center; 
+    
+}
+.log:hover{
+   color:white 
+}
+.plant{
+    height:150px;
+    width: 150px;
 }

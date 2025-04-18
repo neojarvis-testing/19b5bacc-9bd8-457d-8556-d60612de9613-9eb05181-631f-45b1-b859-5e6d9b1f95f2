@@ -85,7 +85,7 @@ const Signup = () => {
                         <div className="card-body">
                             <form onSubmit={handleSubmit}>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="username">User Name <span className="text-danger">*</span></label>
+                                    <label htmlFor="username" style={{color: 'white'}}>User Name <span className="text-danger">*</span></label>
                                     <input
                                         type="text"
                                         id="username"
@@ -98,7 +98,7 @@ const Signup = () => {
                                     {errors.username && <small className="text-danger">{errors.username}</small>}
                                 </div>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="email">Email <span className="text-danger">*</span></label>
+                                    <label htmlFor="email" style={{color: 'white'}}>Email <span className="text-danger">*</span></label>
                                     <input
                                         type="email"
                                         id="email"
@@ -111,7 +111,7 @@ const Signup = () => {
                                     {errors.email && <small className="text-danger">{errors.email}</small>}
                                 </div>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="mobileNumber">Mobile Number <span className="text-danger">*</span></label>
+                                    <label htmlFor="mobileNumber" style={{color: 'white'}}>Mobile Number <span className="text-danger">*</span></label>
                                     <input
                                         type="text"
                                         id="mobileNumber"
@@ -124,7 +124,7 @@ const Signup = () => {
                                     {errors.mobileNumber && <small className="text-danger">{errors.mobileNumber}</small>}
                                 </div>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="password">Password <span className="text-danger">*</span></label>
+                                    <label htmlFor="password" style={{color: 'white'}}>Password <span className="text-danger">*</span></label>
                                     <input
                                         type="password"
                                         id="password"
@@ -138,7 +138,7 @@ const Signup = () => {
                                     {errors.password && <small className="text-danger">{errors.password}</small>}
                                 </div>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="confirmPassword">Confirm Password <span className="text-danger">*</span></label>
+                                    <label htmlFor="confirmPassword" style={{color: 'white'}}>Confirm Password <span className="text-danger">*</span></label>
                                     <input
                                         type="password"
                                         id="confirmPassword"
@@ -152,7 +152,7 @@ const Signup = () => {
                                     {errors.confirmPassword && <small className="text-danger">{errors.confirmPassword}</small>}
                                 </div>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="userRole">Role <span className="text-danger">*</span></label>
+                                    <label htmlFor="userRole" style={{color: 'white'}}>Role <span className="text-danger">*</span></label>
                                     <select
                                         id="userRole"
                                         name="userRole"
@@ -176,6 +176,7 @@ const Signup = () => {
                                         <div className="modal-content">
                                             <div className="modal-header">
                                                 <h5 className="modal-title">Signup Successful</h5>
+                                                <img src="plant.png" className='plant'></img>
                                                 <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
                                             </div>
                                             <div className="modal-body">
@@ -188,7 +189,7 @@ const Signup = () => {
                                     </div>
                                 </div>
                             )}
-                            <p className="mt-3">Already have an Account? <a href="/login">Login</a></p>
+                            <p className="mt-3" style={{color: 'white'}}>Already have an Account? <a href="/login" className='log'>Login</a></p>
                         </div>
                     </div>
                 </div>
