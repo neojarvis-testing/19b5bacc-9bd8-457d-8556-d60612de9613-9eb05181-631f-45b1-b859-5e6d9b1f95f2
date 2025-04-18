@@ -11,14 +11,16 @@ const ViewPlant = () => {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
+  const [searchTerm, setSearchTerm] = useState(''); // New state for search term
 
   const fetchPlants = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_BASE_URL}/Plant`, {headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+      const response = await axios.get(`${API_BASE_URL}/Plant`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
       setPlant(response.data);
     } catch (error) {
       setErrors('Failed to load plants');
@@ -31,16 +33,30 @@ const ViewPlant = () => {
     fetchPlants();
   }, []);
 
-
+  // Filtered plants based on the search term
+  const filteredPlants = plant.filter((myPlant) =>
+    myPlant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    myPlant.category.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
       <CustomerNavbar />
-      <h2 style={{ textAlign: "center" }}>Plants</h2>
+      <h2 style={{ textAlign: 'center' }}>Plants</h2>
       {successMessage && <p className="text-success"><h2>{successMessage}</h2></p>}
       {errors && <p className="text-danger"><h2>{errors}</h2></p>}
       {loading && <p>Loading...</p>}
       {!loading && !errors && plant.length === 0 && <p>No plants available</p>}
+      <div className="py-2">
+        {/* Search Input */}
+        <input
+          type="text"
+          placeholder="Search plants..."
+          className="form-control"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
       <table className="table table-light table-striped" role="table">
         <thead>
           <tr>
@@ -52,18 +68,27 @@ const ViewPlant = () => {
           </tr>
         </thead>
         <tbody>
-          {plant.length > 0 && plant.map((myPlant) => (
-            <tr key={myPlant.plantId || myPlant.name}>
-              <td><img src={myPlant.plantImage} alt={myPlant.name} width="100" /></td>
-              <td>{myPlant.name}</td>
-              <td>{myPlant.category}</td>
-              <td>{myPlant.price}</td>
-              <td>{myPlant.tips}</td>
+          {filteredPlants.length > 0 ? (
+            filteredPlants.map((myPlant) => (
+              <tr key={myPlant.plantId || myPlant.name}>
+                <td>
+                  <img src={myPlant.plantImage} alt={myPlant.name} width="100" />
+                </td>
+                <td>{myPlant.name}</td>
+                <td>{myPlant.category}</td>
+                <td>{myPlant.price}</td>
+                <td>{myPlant.tips}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" style={{ textAlign: 'center' }}>
+                No plants match your search
+              </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
-      <button className="btn btn-secondary" onClick={() => navigate('/logout')}>Logout</button>
     </div>
   );
 };
