@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import GardenerNavbar from './GardenerNavbar';
-import baseUrl from '../apiConfig';
 import 'bootstrap/dist/css/bootstrap.css';
+import API_BASE_URL from '../apiConfig';
 
 const ViewPlant = () => {
   const navigate = useNavigate();
@@ -15,7 +15,10 @@ const ViewPlant = () => {
   const fetchPlants = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${baseUrl}/plants`);
+      const response = await axios.get(`${API_BASE_URL}/Plant`, {headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
       setPlant(response.data);
     } catch (error) {
       setErrors('Failed to load plants');
@@ -30,7 +33,10 @@ const ViewPlant = () => {
 
   const handleDelete = (plantId) => {
     axios
-      .delete(`${baseUrl}/plants/${plantId}`)
+      .delete(`${API_BASE_URL}/Plant/${plantId}`, {headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
       .then(() => {
         setSuccessMessage("Plant successfully deleted.");
         setPlant((prevPlants) => prevPlants.filter((plant) => plant.plantId !== plantId));
@@ -61,8 +67,8 @@ const ViewPlant = () => {
             <th>Image</th>
             <th>Name</th>
             <th>Category</th>
-            <th>Planting Date</th>
-            <th>Notes</th>
+            <th>Price</th>
+            <th>Tips</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -72,8 +78,8 @@ const ViewPlant = () => {
               <td><img src={myPlant.plantImage} alt={myPlant.name} width="100" /></td>
               <td>{myPlant.name}</td>
               <td>{myPlant.category}</td>
-              <td>{new Date(myPlant.plantingDate).toLocaleDateString()}</td>
-              <td>{myPlant.notes}</td>
+              <td>{myPlant.price}</td>
+              <td>{myPlant.tips}</td>
               <td>
                 <button onClick={() => handleEdit(myPlant.plantId)} className="btn btn-primary">Edit</button>
                 <button onClick={() => handleDelete(myPlant.plantId)} className="btn btn-danger">Delete</button>

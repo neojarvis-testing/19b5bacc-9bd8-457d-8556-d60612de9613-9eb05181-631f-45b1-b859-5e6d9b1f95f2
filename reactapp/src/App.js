@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ViewPlant from './GardenerComponents/ViewPlant'
 import PlantForm from './GardenerComponents/PlantForm'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import CustomerViewPlant from './CustomerComponents/CustomerViewPlant'
 const App = () => {
   return (
 
@@ -17,9 +18,12 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Signup />} />
-        <Route path="/Plant" element={<PlantForm />} />
+        <Route path="/Plant" element={<PlantForm mode ="add" />} />
         <Route path="/home" element={<HomePage />} />
-        <Route path = "/home" element={<ViewPlant/>}/>
+        <Route path = "/view" element={<ViewPlant/>}/>
+        <Route path = "/edit/:id" element={<PlantForm mode ="edit" />}/>
+        <Route path = "cview" element={<CustomerViewPlant/>}/>
+
       </Routes>
     </Router>
 

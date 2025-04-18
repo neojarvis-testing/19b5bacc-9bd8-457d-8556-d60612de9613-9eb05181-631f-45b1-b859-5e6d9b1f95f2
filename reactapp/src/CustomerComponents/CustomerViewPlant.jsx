@@ -1,58 +1,71 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import CustomerNavbar from './CustomerNavbar';
+import 'bootstrap/dist/css/bootstrap.css';
+import API_BASE_URL from '../apiConfig';
 
-const plants = [
-  { id: 1, name: "Rose", category: "Flower", price: "$10", tips: "Water regularly" },
-  { id: 2, name: "Tulip", category: "Flower", price: "$12", tips: "Keep in sunlight" },
-  { id: 3, name: "Cactus", category: "Succulent", price: "$8", tips: "Minimal water required" }
-];
+const ViewPlant = () => {
+  const navigate = useNavigate();
+  const [plant, setPlant] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [errors, setErrors] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
 
-const CustomerViewPlant = () => {
+  const fetchPlants = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${API_BASE_URL}/Plant`, {headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+      setPlant(response.data);
+    } catch (error) {
+      setErrors('Failed to load plants');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPlants();
+  }, []);
+
+
+
   return (
     <div>
       <CustomerNavbar />
-      
-      {/* Updated heading to match the test case */}
-      <h1>Available Plants</h1>
-
-      <button>Logout</button>
-
-      <table role="table">
+      <h2 style={{ textAlign: "center" }}>Plants</h2>
+      {successMessage && <p className="text-success"><h2>{successMessage}</h2></p>}
+      {errors && <p className="text-danger"><h2>{errors}</h2></p>}
+      {loading && <p>Loading...</p>}
+      {!loading && !errors && plant.length === 0 && <p>No plants available</p>}
+      <table className="table table-light table-striped" role="table">
         <thead>
           <tr>
-            <th>Images</th>
+            <th>Image</th>
             <th>Name</th>
             <th>Category</th>
             <th>Price</th>
             <th>Tips</th>
-            <th>Action</th>
           </tr>
         </thead>
-
         <tbody>
-          {plants.map((plant) => (
-            <tr key={plant.id}>
-              <td>
-                <img 
-                  src={`path/to/${plant.name.toLowerCase().replace(/ /g, '-')}.jpg`} 
-                  alt={plant.name} 
-                  width="50" 
-                />
-              </td>
-              <td>{plant.name}</td>
-              <td>{plant.category}</td>
-              <td>{plant.price}</td>
-              <td>{plant.tips}</td>
-              <td>
-                <button>Edit</button>
-                <button>Delete</button>
-              </td>
+          {plant.length > 0 && plant.map((myPlant) => (
+            <tr key={myPlant.plantId || myPlant.name}>
+              <td><img src={myPlant.plantImage} alt={myPlant.name} width="100" /></td>
+              <td>{myPlant.name}</td>
+              <td>{myPlant.category}</td>
+              <td>{myPlant.price}</td>
+              <td>{myPlant.tips}</td>
             </tr>
           ))}
         </tbody>
       </table>
+      <button className="btn btn-secondary" onClick={() => navigate('/logout')}>Logout</button>
     </div>
   );
 };
 
-export default CustomerViewPlant;
+export default ViewPlant;

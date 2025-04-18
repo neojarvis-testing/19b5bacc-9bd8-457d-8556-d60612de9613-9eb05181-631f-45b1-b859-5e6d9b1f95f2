@@ -21,6 +21,10 @@ const Login = () => {
             setEmailError('Email is required');
             valid = false;
         }
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+            setEmailError('Invalid Email');
+            valid = false;
+        }
         else{
             setEmailError('');
         }
@@ -76,7 +80,7 @@ const Login = () => {
             <div>
                 <label>Email</label>
                 <input 
-                    type="email" 
+                    type="text" 
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)} 
                     placeholder="Email" 
