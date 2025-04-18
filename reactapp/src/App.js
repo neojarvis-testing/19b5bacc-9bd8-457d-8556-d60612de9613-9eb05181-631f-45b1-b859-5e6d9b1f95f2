@@ -11,23 +11,6 @@ import PlantForm from './GardenerComponents/PlantForm'
 import 'bootstrap/dist/css/bootstrap.min.css';
 const App = () => {
   return (
-<<<<<<< HEAD
-    
-<BrowserRouter>
-    <div>
-        <CustomerNavbar/>
-        <Signup />
-        <Login />
-        <GardenerNavbar/>
-        <HomePage />
-        <ViewPlant/>
-        <PlantForm/>
-        <Login></Login>
-
-        <ErrorPage></ErrorPage>
-    </div>
-</BrowserRouter>
-=======
 
     <Router>
       <Routes>
@@ -36,9 +19,9 @@ const App = () => {
         <Route path="/register" element={<Signup />} />
         <Route path="/Plant" element={<PlantForm />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path = "/home" element={<ViewPlant/>}/>
       </Routes>
     </Router>
->>>>>>> 1d3aa4cc6ab1731be5e48bec4af5514a1e34fc09
 
   )
 }
