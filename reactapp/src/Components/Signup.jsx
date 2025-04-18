@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './Signup.css';
-
+import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from '../apiConfig';
 const Signup = () => {
     const [formData, setFormData] = useState({
         username: '',
@@ -14,6 +15,8 @@ const Signup = () => {
     const [errors, setErrors] = useState({});
     const [message, setMessage] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [formError, setFormError] = useState({});
+    const navigate = useNavigate();
 
     const validateForm = () => {
         const errors = {};
@@ -22,9 +25,11 @@ const Signup = () => {
         }
         if (!formData.email.trim()) {
             errors.email = 'Email is required';
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        } 
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
             errors.email = 'Please enter a valid email';
         }
+
         if (!formData.mobileNumber.trim()) {
             errors.mobileNumber = 'Mobile number is required';
         } else if (!/^\d{10}$/.test(formData.mobileNumber)) {
@@ -49,14 +54,20 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const validationErrors = validateForm();
+        // const validationErrors = Object.keys(validateForm).reduce((acc, key) => {
+        //     const error = validateForm[key](formData[key]);
+        //     if (error) acc[key] = error;
+        //     return acc;
+        //   }, {});
         setErrors(validationErrors);
         if (Object.keys(validationErrors).length === 0) {
-            try {
-                const response = await axios.post('/api/register', formData);
+            await axios.post(`${API_BASE_URL}/register`, formData).then((res) => {
+                setMessage('Successful!');
                 setShowModal(true);
-            } catch (error) {
-                setMessage('Signup failed. Please try again.');
-            }
+
+            }).catch(() => {
+                setFormError("Signup failed!")
+            });
         }
     };
 
@@ -83,7 +94,6 @@ const Signup = () => {
                                         value={formData.username}
                                         onChange={handleChange}
                                         placeholder="Username"
-                                        required
                                     />
                                     {errors.username && <small className="text-danger">{errors.username}</small>}
                                 </div>
@@ -97,7 +107,6 @@ const Signup = () => {
                                         value={formData.email}
                                         onChange={handleChange}
                                         placeholder="Email"
-                                        required
                                     />
                                     {errors.email && <small className="text-danger">{errors.email}</small>}
                                 </div>
@@ -111,7 +120,6 @@ const Signup = () => {
                                         value={formData.mobileNumber}
                                         onChange={handleChange}
                                         placeholder="Mobile Number"
-                                        required
                                     />
                                     {errors.mobileNumber && <small className="text-danger">{errors.mobileNumber}</small>}
                                 </div>
@@ -125,7 +133,7 @@ const Signup = () => {
                                         value={formData.password}
                                         onChange={handleChange}
                                         placeholder="Password"
-                                        required
+
                                     />
                                     {errors.password && <small className="text-danger">{errors.password}</small>}
                                 </div>
@@ -139,7 +147,7 @@ const Signup = () => {
                                         value={formData.confirmPassword}
                                         onChange={handleChange}
                                         placeholder="Confirm Password"
-                                        required
+
                                     />
                                     {errors.confirmPassword && <small className="text-danger">{errors.confirmPassword}</small>}
                                 </div>
@@ -151,7 +159,7 @@ const Signup = () => {
                                         className="form-control"
                                         value={formData.userRole}
                                         onChange={handleChange}
-                                        required
+
                                     >
                                         <option value="">Please select a role</option>
                                         <option value="Customer">Customer</option>

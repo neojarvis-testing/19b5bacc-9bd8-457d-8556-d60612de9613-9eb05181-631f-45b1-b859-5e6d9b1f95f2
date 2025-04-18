@@ -9,6 +9,7 @@ const HomePage = () => {
         curated plant collections, explore trending species, and get tailored advice to make your gardening journey enjoyable and successfully</p>
 
         <div>
+          <h2>Garden Mentor</h2>
           <h5>Contact Us</h5>
           <p>Email: example@example.com</p>
           <p>Phone: 123-456-7890</p>
