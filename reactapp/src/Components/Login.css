@@ -1,0 +1,90 @@
+
+body {
+    background-color: #d3d3d3; 
+    font-family: Arial, sans-serif;
+   
+  }
+  
+  .login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('/home/coder/project/workspace/reactapp/public/background2.jpg') no-repeat center center;
+    background-size: cover;  
+    background-position: center;
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .row {
+    background-color: rgba(224, 224, 224, 0.8); 
+    padding: 20px; 
+    border-radius: 10px; 
+  }
+  
+  .info-section {
+    padding: 20px;
+    background-color: #0d9140b7; 
+    color: #ffffff; 
+    border-right: 1px solid #dee2e6;
+  }
+  
+  .login-section {
+    padding: 20px;
+    background-color: #0c6d31b7;
+  }
+  h1, h2 {
+    color: #ffffff;
+    text-align: center;
+  }
+
+  h2{
+    color:white
+  }
+  
+  p {
+    color: #ffffff; 
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-control {
+    border-radius: 0.25rem;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 5px;
+  }
+
+  .linking{
+    color:rgb(26, 255, 0);
+  }
+  .head2{
+    color:white
+  }
+  .linking:hover{
+    color:white;
+  }
+
+  .logoimg{
+    width:150px;
+    height:150px;
+    margin-left:220px;
+  }
+
+  
