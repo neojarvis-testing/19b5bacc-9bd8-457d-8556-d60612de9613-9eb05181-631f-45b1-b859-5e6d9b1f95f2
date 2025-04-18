@@ -59,7 +59,7 @@ namespace dotnetapp.Services
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.UserRole)
             };
- 
+
             var token = GenerateToken(claims);
             return (200, new { Token = token });
     }

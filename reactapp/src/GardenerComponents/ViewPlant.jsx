@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import GardenerNavbar from './GardenerNavbar';
 import 'bootstrap/dist/css/bootstrap.css';
 import API_BASE_URL from '../apiConfig';
-
+import ErrorPage from '../Components/ErrorPage';
+import {ThreeDot} from 'react-loading-indicators'
 const ViewPlant = () => {
   const navigate = useNavigate();
   const [plant, setPlant] = useState([]);
@@ -21,7 +22,8 @@ const ViewPlant = () => {
     });
       setPlant(response.data);
     } catch (error) {
-      setErrors('Failed to load plants');
+      setErrors(<ErrorPage/>);
+
     } finally {
       setLoading(false);
     }
@@ -58,9 +60,8 @@ const ViewPlant = () => {
       <h2 style={{ textAlign: "center" }}>Plants</h2>
       {successMessage && <p className="text-success"><h2>{successMessage}</h2></p>}
       {errors && <p className="text-danger"><h2>{errors}</h2></p>}
-      {loading && <p>Loading...</p>}
+      {loading && <p><ThreeDot variant="bounce" color="#32cd32" size="medium" text="" textColor="" />Loading...</p>}
       {!loading && !errors && plant.length === 0 && <p>No plants available</p>}
-
       <table className="table table-light table-striped" role="table">
         <thead>
           <tr>
@@ -88,9 +89,6 @@ const ViewPlant = () => {
           ))}
         </tbody>
       </table>
-
-      <button className="btn btn-success" onClick={() => navigate('/add-plant')}>Add Plant</button>
-      <button className="btn btn-secondary" onClick={() => navigate('/logout')}>Logout</button>
     </div>
   );
 };

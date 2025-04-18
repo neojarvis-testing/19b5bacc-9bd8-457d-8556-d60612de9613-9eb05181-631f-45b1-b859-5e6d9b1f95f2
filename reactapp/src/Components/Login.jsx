@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import API_BASE_URL from '../apiConfig';
 import { Link } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode'
 import './Login.css';
-
-// import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
  
 //import {useNavigate} from 'react-router-dom';
  
@@ -14,7 +14,7 @@ const Login = () => {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [message,setMessage] = useState('');
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     //const navigate = useNavigate();
  
     const validateForm = () => {
@@ -47,18 +47,15 @@ const Login = () => {
         if(validateForm()){
             try{
                 const response = await axios.post(`${API_BASE_URL}/login`,{email,password});
-                const {token,role} = response.data;
-                setMessage("vellipoooo raaa");
+                const {token} = response.data;
                 localStorage.setItem('token',token);
- 
-                if(role === 'Gardener')
-                {
-                   // navigate('/GardenerNavbar');
-                }
-                else if(role === 'Customer')
-                {
-                   // navigate('/CustomerNavbar');
-                }
+                const tokenDecoded = jwtDecode(token);
+                console.log(tokenDecoded);
+                const userName = tokenDecoded.name;
+                const role = tokenDecoded.role;
+                localStorage.setItem('userName',userName);
+                localStorage.setItem('role',role);
+                navigate('/home');
  
             }catch(error)
             {

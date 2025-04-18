@@ -18,10 +18,12 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Signup />} />
-        <Route path="/Plant" element={<PlantForm mode ="add" />} />
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/gardenernavbar" element={<GardenerNavbar username="GardenerUser" role="Gardener"/>}/>
+        <Route path="/customernavbar" element={<CustomerNavbar username="CustomerUser" role="Customer"/>}/>
+        <Route path="/Plant" element={<PlantForm isEditing={false}/>} />
+        <Route path="/home" element={<HomePage/>} />
         <Route path = "/view" element={<ViewPlant/>}/>
-        <Route path = "/edit/:id" element={<PlantForm mode ="edit" />}/>
+        <Route path = "/edit/:id" element={<PlantForm isEditing={true}/>}/>
         <Route path = "cview" element={<CustomerViewPlant/>}/>
 
       </Routes>

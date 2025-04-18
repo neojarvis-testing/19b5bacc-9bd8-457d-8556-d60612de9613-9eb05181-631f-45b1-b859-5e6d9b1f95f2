@@ -1,25 +1,28 @@
 import React from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, Dropdown } from 'react-bootstrap';
 import './HomePage.css';
+import { useNavigate } from 'react-router-dom';
+import CustomerNavbar from '../CustomerComponents/CustomerNavbar';
+import GardenerNavbar from '../GardenerComponents/GardenerNavbar';
 
 const HomePage = () => {
+  const userName=localStorage.getItem('userName') || 'Guest';
+  const role=localStorage.getItem('role') || 'Customer';
+  const navigate=useNavigate();
+  const handleLogout=()=>
+  {
+    localStorage.clear();
+    navigate('/');
+  };
   return (
     <div>
-      <Navbar bg="success" variant="dark" expand="lg">
-        <Navbar.Brand href="#home">Garden Mentor</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto">
-            <Nav.Link href="#home" className='home'>Home</Nav.Link>
-            <Nav.Link href="#plant" className='plant'>Plant</Nav.Link>
-            <Button variant="outline-danger" className="ml-2">Logout</Button>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+      
+      <span>{role === "Customer" ? <CustomerNavbar/> : <GardenerNavbar/>}</span>
+
       <div className="content text-center position-relative">
         <img src="gardenmentorcoverimage.jfif" alt="Garden Mentor Cover" className="cover-image mx-auto d-block"/>
         <h1 className='position-absolute top-50 start-50 translate-middle bg-white p-2'>Garden Mentor</h1> 
-        <p className="desc">
+        <p className="text-black">
           Discover and nurture the perfect plants for your space with expert recommendations and personalized gardening tips. Browse 
           get tailored advice to make your gardening journey enjoyable and successful.
         </p>
