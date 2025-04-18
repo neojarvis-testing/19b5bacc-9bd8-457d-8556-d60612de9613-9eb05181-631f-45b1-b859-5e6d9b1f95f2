@@ -1,78 +1,91 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, Button, Modal } from 'react-bootstrap'; 
-import './ViewPlant.css';
+import { useNavigate } from 'react-router-dom';
 import GardenerNavbar from './GardenerNavbar';
+import baseUrl from '../apiConfig';
+import 'bootstrap/dist/css/bootstrap.css';
 
 const ViewPlant = () => {
-  const { plantId } = useParams();
-  const [plant, setPlant] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const navigate = useNavigate();
+  const [plant, setPlant] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [errors, setErrors] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
 
-  useEffect(() => {
-    const fetchPlant = async () => {
-      try {
-        const response = await axios.get(`/api/plants/${plantId}`);
-        setPlant(response.data);
-      } catch (error) {
-        console.error('Error fetching plant data:', error);
-      }
-    };
-
-    fetchPlant();
-  }, [plantId]);
-
-  const handleDelete = async () => {
+  const fetchPlants = async () => {
+    setLoading(true);
     try {
-      await axios.delete(`/api/plants/${plantId}`);
-      setShowDeleteModal(false);
-      alert('Plant deleted successfully!');
-      // Redirect or update the UI as needed
+      const response = await axios.get(`${baseUrl}/plants`);
+      setPlant(response.data);
     } catch (error) {
-      console.error('Error deleting plant:', error);
-      alert('Failed to delete plant. Please try again.');
+      setErrors('Failed to load plants');
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (!plant) {
-    return <p>Loading...</p>;
-  }
+  useEffect(() => {
+    fetchPlants();
+  }, []);
+
+  const handleDelete = (plantId) => {
+    axios
+      .delete(`${baseUrl}/plants/${plantId}`)
+      .then(() => {
+        setSuccessMessage("Plant successfully deleted.");
+        setPlant((prevPlants) => prevPlants.filter((plant) => plant.plantId !== plantId));
+        setTimeout(() => setSuccessMessage(""), 3000);
+      })
+      .catch(() => {
+        setErrors('Failed to delete plant.');
+        setTimeout(() => setErrors(""), 3000);
+      });
+  };
+
+  const handleEdit = (id) => {
+    navigate(`/edit/${id}`);
+  };
 
   return (
-    <Card className="plant-card">
-      
-      <GardenerNavbar/>
-      <h1>Plants</h1>
-      <Card.Body>
-        <Card.Title>{plant.plantName}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{plant.plantType}</Card.Subtitle>
-        <Card.Text>
-          <strong>Planting Date:</strong> {new Date(plant.plantingDate).toLocaleDateString()}
-        </Card.Text>
-        <Card.Text>
-          <strong>Notes:</strong> {plant.notes}
-        </Card.Text>
-        <Button variant="primary" href={`/edit-plant/${plantId}`}>Edit</Button>
-        <Button variant="danger" onClick={() => setShowDeleteModal(true)}>Delete</Button>
-      </Card.Body>
+    <div>
+      <GardenerNavbar />
+      <h2 style={{ textAlign: "center" }}>Plants</h2>
+      {successMessage && <p className="text-success"><h2>{successMessage}</h2></p>}
+      {errors && <p className="text-danger"><h2>{errors}</h2></p>}
+      {loading && <p>Loading...</p>}
+      {!loading && !errors && plant.length === 0 && <p>No plants available</p>}
 
-      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this plant?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            Yes, Delete
-          </Button>
-        
-        </Modal.Footer>
-      </Modal>
-    </Card>
+      <table className="table table-light table-striped" role="table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Planting Date</th>
+            <th>Notes</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {plant.length > 0 && plant.map((myPlant) => (
+            <tr key={myPlant.plantId || myPlant.name}>
+              <td><img src={myPlant.plantImage} alt={myPlant.name} width="100" /></td>
+              <td>{myPlant.name}</td>
+              <td>{myPlant.category}</td>
+              <td>{new Date(myPlant.plantingDate).toLocaleDateString()}</td>
+              <td>{myPlant.notes}</td>
+              <td>
+                <button onClick={() => handleEdit(myPlant.plantId)} className="btn btn-primary">Edit</button>
+                <button onClick={() => handleDelete(myPlant.plantId)} className="btn btn-danger">Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <button className="btn btn-success" onClick={() => navigate('/add-plant')}>Add Plant</button>
+      <button className="btn btn-secondary" onClick={() => navigate('/logout')}>Logout</button>
+    </div>
   );
 };
 
