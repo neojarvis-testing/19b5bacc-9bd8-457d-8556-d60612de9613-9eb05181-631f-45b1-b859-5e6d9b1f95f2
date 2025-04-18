@@ -41,7 +41,9 @@ const ViewPlant = () => {
 
   return (
     <Card className="plant-card">
+      
       <GardenerNavbar/>
+      <h1>Plants</h1>
       <Card.Body>
         <Card.Title>{plant.plantName}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{plant.plantType}</Card.Subtitle>
@@ -67,6 +69,7 @@ const ViewPlant = () => {
           <Button variant="danger" onClick={handleDelete}>
             Yes, Delete
           </Button>
+        
         </Modal.Footer>
       </Modal>
     </Card>

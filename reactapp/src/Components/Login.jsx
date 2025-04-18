@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../apiConfig';
+import { Link } from 'react-router-dom';
 // import {useNavigate} from 'react-router-dom';
 
 //import {useNavigate} from 'react-router-dom';
@@ -33,12 +35,14 @@ const Login = () => {
         return valid;
         
     };
+
     const handleSubmit = async(e) => {
         e.preventDefault();
         if(validateForm()){
             try{
-                const response = await axios.post('/api/login',{email,password});
+                const response = await axios.post(`${API_BASE_URL}/login`,{email,password});
                 const {token,role} = response.data;
+                setMessage("vellipoooo raaa");
                 localStorage.setItem('token',token);
 
                 if(role === 'Gardener')
@@ -76,7 +80,7 @@ const Login = () => {
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)} 
                     placeholder="Email" 
-                    required 
+                     
                 />
                 {emailError && <p className="error">{emailError}</p>}
             </div>
@@ -87,14 +91,15 @@ const Login = () => {
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)} 
                     placeholder="Password" 
-                    required 
+                     
                 />
                 {passwordError && <p className="error">{passwordError}</p>}
             </div>
             <button type="submit">Login</button>
         </form>
         {message && <p className="error">{message}</p>}
-        <p>Don't have an account? <a href="/signup">Signup</a></p>
+        <p>Don't have an account? <a href="/register">Signup</a></p>
+        <p>Don't have an account? <Link to="/register"></Link></p>
     </div>
   </div>
 

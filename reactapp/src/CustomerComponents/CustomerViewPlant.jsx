@@ -5,7 +5,7 @@ const CustomerViewPlant = () => {
   return (
     <div>
       <CustomerNavbar />
-      <h1>Plants</h1>
+
       <table>
         <thead>
           <tr>
@@ -20,7 +20,7 @@ const CustomerViewPlant = () => {
 
         <tbody>
           
-            <tr key={index}>
+            <tr>
               <td><img src={`path/to/${Name.toLowerCase().replace(' ', '-')}.jpg`} alt={Name} width="50" /></td>
               <td>{Name}</td>
               <td>Category</td>
