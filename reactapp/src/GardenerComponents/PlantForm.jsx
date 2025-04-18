@@ -1,9 +1,7 @@
-import React from 'react'
-import {Form,Button} from 'react-bootstrap';
-import axios from 'axios'
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
+import axios from 'axios';
 import GardenerNavbar from './GardenerNavbar';
-
 
 const PlantForm = () => {
     const [formData, setFormData] = useState({
@@ -12,18 +10,19 @@ const PlantForm = () => {
       plantingDate: '',
       notes: '',
     });
-  
+
     const handleChange = (e) => {
       const { name, value } = e.target;
       setFormData({ ...formData, [name]: value });
     };
-  
+
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
         const response = await axios.post('/api/plants', formData);
         console.log('Form data submitted:', response.data);
         alert('Plant added successfully!');
+        
         // Reset form after successful submission
         setFormData({
           plantName: '',
@@ -36,23 +35,23 @@ const PlantForm = () => {
         alert('Failed to add plant. Please try again.');
       }
     };
-  
+
     return (
       <div className="plant-form">
-        <GardenerNavbar/>
-        <h2>Add New Plant</h2>
+        <GardenerNavbar />
+        <h2>Create New Plant</h2>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formPlantName">
             <Form.Label>Plant Name</Form.Label>
             <Form.Control
-             text="date"
+              type="text"
               name="plantName"
               value={formData.plantName}
               onChange={handleChange}
               required
             />
           </Form.Group>
-  
+
           <Form.Group controlId="formPlantType">
             <Form.Label>Plant Type</Form.Label>
             <Form.Control
@@ -63,7 +62,7 @@ const PlantForm = () => {
               required
             />
           </Form.Group>
-  
+
           <Form.Group controlId="formPlantingDate">
             <Form.Label>Planting Date</Form.Label>
             <Form.Control
@@ -74,7 +73,7 @@ const PlantForm = () => {
               required
             />
           </Form.Group>
-  
+
           <Form.Group controlId="formNotes">
             <Form.Label>Notes</Form.Label>
             <Form.Control
@@ -84,14 +83,14 @@ const PlantForm = () => {
               onChange={handleChange}
             />
           </Form.Group>
-  
+
+          {/* Updated Button Name */}
           <Button variant="primary" type="submit">
-            Submit
+            Add Plant
           </Button>
         </Form>
       </div>
     );
-  };
-  
-  export default PlantForm;
-  
+};
+
+export default PlantForm;

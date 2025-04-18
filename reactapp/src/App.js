@@ -19,6 +19,7 @@ const App = () => {
         <Route path="/register" element={<Signup />} />
         <Route path="/Plant" element={<PlantForm />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path = "/home" element={<ViewPlant/>}/>
       </Routes>
     </Router>
 
