@@ -11,6 +11,7 @@ const Login = () => {
   const [passwordError, setPasswordError] = useState('');
   const [message, setMessage] = useState('');
 
+<<<<<<< HEAD
   const validateForm = () => {
     let valid = true;
     if (!email) {
@@ -19,6 +20,32 @@ const Login = () => {
     } else {
       setEmailError('');
     }
+=======
+    const validateForm = () => {
+        let valid = true;
+        if(!email){
+            setEmailError('Email is required');
+            valid = false;
+        }
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+            setEmailError('Invalid Email');
+            valid = false;
+        }
+        else{
+            setEmailError('');
+        }
+
+        if(!password){
+            setPasswordError('Password is required');
+            valid = false;
+        }
+        else{
+            setPasswordError('');
+        }
+        return valid;
+        
+    };
+>>>>>>> f9a5c9c9e3dd2815212a6e66ce6a4f17dd0f0442
 
     if (!password) {
       setPasswordError('Password is required');
@@ -58,6 +85,7 @@ const Login = () => {
             Discover and nurture the perfect plants for your space with expert recommendations
             and personalized gardening tips. Browse curated plant collections, explore trending
             species, and get tailored advice to make your gardening journey enjoyable and successful.
+<<<<<<< HEAD
           </p>
           <img src='logoimage.png' className='logoimg'></img>
         </div>
@@ -74,6 +102,23 @@ const Login = () => {
                 placeholder="Email"
               />
               {emailError && <p style={{color:"rgb(26, 255, 0)"}}  >{emailError}</p>}
+=======
+        </p>
+    </div>
+    <div className="login-section">
+        <h2>Login</h2>
+        <form onSubmit={handleSubmit}>
+            <div>
+                <label>Email</label>
+                <input 
+                    type="text" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)} 
+                    placeholder="Email" 
+                     
+                />
+                {emailError && <p className="error">{emailError}</p>}
+>>>>>>> f9a5c9c9e3dd2815212a6e66ce6a4f17dd0f0442
             </div>
             <div className="form-group">
               <label style={{color:"white"}}>Password</label>
