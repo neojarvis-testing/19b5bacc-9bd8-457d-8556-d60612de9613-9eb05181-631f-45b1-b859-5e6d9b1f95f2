@@ -19,13 +19,14 @@ const HomePage = () => {
       
       <span>{role === "Customer" ? <CustomerNavbar/> : <GardenerNavbar/>}</span>
 
-      <div className="content text-center position-relative">
-        <img src="gardenmentorcoverimage.jfif" alt="Garden Mentor Cover" className="cover-image mx-auto d-block"/>
-        <h1 className='position-absolute top-50 start-50 translate-middle bg-white p-2'>Garden Mentor</h1> 
+      <div style={{backgroundColor:'#1a7446'}} className="content text-center position-relative">
+        <img src="GardenMentor.png" alt="Garden Mentor Cover" className="img"/>
+        <div className='para'>
         <p className="text-black">
-          Discover and nurture the perfect plants for your space with expert recommendations and personalized gardening tips. Browse 
+          Discover and nurture the perfect plants for your space with expert recommendations and personalized gardening tips. Browse
           get tailored advice to make your gardening journey enjoyable and successful.
         </p>
+        </div>
         <div className="contact-section mt-5">
           <h2>Contact Us</h2>
           <p>Email: example@example.com</p>

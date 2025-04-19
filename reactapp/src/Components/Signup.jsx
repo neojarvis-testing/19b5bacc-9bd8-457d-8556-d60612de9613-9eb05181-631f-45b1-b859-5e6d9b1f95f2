@@ -18,8 +18,36 @@ const Signup = () => {
     const [formError, setFormError] = useState({});
     const navigate = useNavigate();
 
+    const validatePassword = (password) => {
+        let passErrors = [];
+   
+        if (!password.trim()) {
+            passErrors.push("Password is required.");
+        }
+        if (password.length < 6) {
+            passErrors.push("Password must be at least 6 characters long.");
+        }
+        if (!/[A-Z]/.test(password)) {
+            passErrors.push("Password must contain at least one uppercase letter.");
+        }
+        if (!/[a-z]/.test(password)) {
+            passErrors.push("Password must contain at least one lowercase letter.");
+        }
+        if (!/\d/.test(password)) {
+            passErrors.push("Password must contain at least one number.");
+        }
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            passErrors.push("Password must contain at least one special character.");
+        }
+   
+        return passErrors;
+    };
+
+
+
     const validateForm = () => {
         const errors = {};
+        const passwordErrors = validatePassword(formData.password);
         if (!formData.username.trim()) {
             errors.username = 'User Name is required';
         }
@@ -35,10 +63,8 @@ const Signup = () => {
         } else if (!/^\d{10}$/.test(formData.mobileNumber)) {
             errors.mobileNumber = 'Mobile number must be 10 digits';
         }
-        if (!formData.password.trim()) {
-            errors.password = 'Password is required';
-        } else if (formData.password.length < 6) {
-            errors.password = 'Password must be at least 6 characters';
+        if (passwordErrors.length > 0) {
+            errors.password = passwordErrors.join("\n");
         }
         if (!formData.confirmPassword.trim()) {
             errors.confirmPassword = 'Confirm Password is required';
