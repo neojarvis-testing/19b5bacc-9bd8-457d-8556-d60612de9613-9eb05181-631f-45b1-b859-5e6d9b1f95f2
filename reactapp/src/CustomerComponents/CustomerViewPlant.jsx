@@ -42,7 +42,7 @@ const ViewPlant = () => {
   return (
     <div>
       <CustomerNavbar />
-      <h2 style={{ textAlign: 'center' }}>Plants</h2>
+      <h2 style={{ textAlign: 'center' }}>Available Plants</h2>
       {successMessage && <p className="text-success"><h2>{successMessage}</h2></p>}
       {errors && <p className="text-danger"><h2>{errors}</h2></p>}
       {loading && <p>Loading...</p>}

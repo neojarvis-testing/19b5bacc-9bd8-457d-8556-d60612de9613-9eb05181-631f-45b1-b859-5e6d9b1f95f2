@@ -5,7 +5,7 @@ import API_BASE_URL from '../apiConfig';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+ 
 const PlantForm = ({ isEditing, initialData = {} }) => {
     const [formData, setFormData] = useState({
         name: '',
@@ -23,21 +23,38 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-    // Populate formData when editing and initialData is provided
+ 
+    // Fetch plant data when editing
     useEffect(() => {
-        if (isEditing && initialData) {
-            setFormData({
-                name: initialData.name || '',
-                category: initialData.category || '',
-                price: initialData.price || '',
-                tips: initialData.tips || '',
-                plantImage: initialData.plantImage || null,
-            });
+        if (isEditing) {
+            const fetchPlant = async () => {
+                setLoading(true);
+                try {
+                    const token = localStorage.getItem('token');
+                    const response = await axios.get(`${API_BASE_URL}/Plant/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    setFormData({
+                        name: response.data.name,
+                        category: response.data.category,
+                        price: response.data.price,
+                        tips: response.data.tips,
+                        plantImage: response.data.plantImage, // Ensure this line sets the plantImage
+                    });
+                    setFileName(response.data.plantImage ? 'Current Image' : '');
+                } catch (error) {
+                    console.error('Error fetching plant:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+ 
+            fetchPlant();
         }
-    }, [isEditing, JSON.stringify(initialData)]);
-    
-
+    }, [isEditing, id]);
+ 
     const validateForm = () => {
         const newErrors = {};
         if (!formData.name) newErrors.name = 'Name is required';
@@ -48,10 +65,10 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-
+ 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
-
+ 
         if (files && files.length > 0) {
             const file = files[0];
             setFileName(file.name);
@@ -70,20 +87,20 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
             }));
         }
     };
-
+ 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+ 
         if (!validateForm()) return;
-
+ 
         setLoading(true);
-
+ 
         try {
             const token = localStorage.getItem('token');
             const headers = {
                 Authorization: `Bearer ${token}`,
             };
-
+ 
             if (isEditing) {
                 const response = await axios.put(
                     `${API_BASE_URL}/Plant/${id}`,
@@ -91,6 +108,7 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
                     { headers }
                 );
                 console.log('Plant updated successfully:', response.data);
+                // navigate('/view');
             } else {
                 const response = await axios.post(
                     `${API_BASE_URL}/Plant`,
@@ -98,14 +116,15 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
                     { headers }
                 );
                 console.log('Plant added successfully:', response.data);
+           
             }
-
+ 
             setLoading(false);
             setShowPopup(true);
         } catch (error) {
             setLoading(false);
             console.error('Error saving plant:', error);
-
+ 
             if (error.response) {
                 console.error('Error response:', error.response.data); // Log backend error details
             } else if (error.request) {
@@ -113,7 +132,7 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
             } else {
                 console.error('Error setting up request:', error.message); // Log any other errors
             }
-
+ 
             if (error.response && error.response.status === 401) {
                 console.error('Unauthorized: Redirecting to login');
                 localStorage.removeItem('token');
@@ -121,12 +140,12 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
             }
         }
     };
-
+ 
     const handlePopupClose = () => {
         setShowPopup(false);
-        navigate('/Plant');
+        navigate('/view');
     };
-
+ 
     return (
         <div className="container mt-5">
             <GardenerNavbar />
@@ -183,47 +202,60 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
                         </div>
                         <div className="form-group mb-3">
                             <label htmlFor="tips">Tips<span className="text-danger">*</span></label>
-                            <textarea
+                            <input
+                                type="text"
                                 id="tips"
                                 name="tips"
                                 className="form-control"
                                 value={formData.tips}
                                 onChange={handleChange}
-                            ></textarea>
+                            />
                             {errors.tips && <small className="text-danger">{errors.tips}</small>}
                         </div>
-                        <div className="form-group mb-4">
+                        <div className="form-group mb-3">
                             <label htmlFor="plantImage">Plant Image<span className="text-danger">*</span></label>
-                            <div className="input-group">
-                                <input
-                                    type="file"
-                                    id="plantImage"
-                                    name="plantImage"
-                                    className="form-control"
-                                    onChange={handleChange}
-                                />
-                                {fileName && <span className="input-group-text">{fileName}</span>}
-                            </div>
+                            <input
+                                type="file"
+                                id="plantImage"
+                                name="plantImage"
+                                className="form-control"
+                                onChange={handleChange}
+                            />
+                            {fileName && <small className="text-muted">{fileName}</small>}
                             {errors.plantImage && <small className="text-danger">{errors.plantImage}</small>}
+                            {formData.plantImage && (
+                                <div className="mt-3">
+                                    <img
+                                        src={formData.plantImage}
+                                        alt="Plant"
+                                        style={{ maxWidth: '100%', height: 'auto' }}
+                                    />
+                                </div>
+                            )}
                         </div>
-                        <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
-                            {loading ? 'Saving...' : isEditing ? 'Update Plant' : 'Add Plant'}
+                        <button type="submit" className="btn btn-primary btn-block" disabled={loading}>                            
+                                {isEditing ? (loading ? 'Updating...' : 'Update') : (loading ? 'Adding...' : 'Add Plant')}
                         </button>
                     </form>
-                    {showPopup && (
-                        <div className="popup">
-                            <div className="popup-content">
-                                <p>{isEditing
-                            ? 'Plant updated successfully!'
-                            : 'Plant added successfully!'}</p>
-                                <button className="btn btn-primary" onClick={handlePopupClose}>Close</button>
-                            </div>
-                        </div>
-                    )}
                 </div>
             </div>
+ 
+            {/* Success Popup */}
+            <Modal show={showPopup} onHide={handlePopupClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>{isEditing ? 'Plant Updated' : 'Plant Created'}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {isEditing ? 'The plant has been successfully updated.' : 'The plant has been successfully created.'}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={handlePopupClose}>
+                        OK
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 };
-
+ 
 export default PlantForm;

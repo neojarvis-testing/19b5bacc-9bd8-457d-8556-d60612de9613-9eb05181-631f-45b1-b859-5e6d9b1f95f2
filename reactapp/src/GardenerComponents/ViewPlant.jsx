@@ -4,26 +4,31 @@ import { useNavigate } from 'react-router-dom';
 import GardenerNavbar from './GardenerNavbar';
 import 'bootstrap/dist/css/bootstrap.css';
 import API_BASE_URL from '../apiConfig';
-import ErrorPage from '../Components/ErrorPage';
-import {ThreeDot} from 'react-loading-indicators'
+import { ThreeDot } from 'react-loading-indicators';
+import { Button, Modal } from 'react-bootstrap';
+
 const ViewPlant = () => {
   const navigate = useNavigate();
   const [plant, setPlant] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [plantToDelete, setPlantToDelete] = useState(null);
 
   const fetchPlants = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_BASE_URL}/Plant`, {headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+      const response = await axios.get(`${API_BASE_URL}/Plant`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       setPlant(response.data);
+      console.log('Fetched plants:', response.data); // Log fetched data
     } catch (error) {
-      setErrors(<ErrorPage/>);
-
+      console.error('Error fetching plants:', error); // Log error details
+      setErrors('Error fetching plants');
     } finally {
       setLoading(false);
     }
@@ -33,25 +38,31 @@ const ViewPlant = () => {
     fetchPlants();
   }, []);
 
-  const handleDelete = (plantId) => {
-    axios
-      .delete(`${API_BASE_URL}/Plant/${plantId}`, {headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then(() => {
-        setSuccessMessage("Plant successfully deleted.");
-        setPlant((prevPlants) => prevPlants.filter((plant) => plant.plantId !== plantId));
-        setTimeout(() => setSuccessMessage(""), 3000);
-      })
-      .catch(() => {
-        setErrors('Failed to delete plant.');
-        setTimeout(() => setErrors(""), 3000);
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`${API_BASE_URL}/Plant/${plantToDelete}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
+      
+      setPlant((prevPlants) => prevPlants.filter((plant) => plant.plantId !== plantToDelete));
+      setTimeout(() => setSuccessMessage(""), 3000);
+      setShowDeletePopup(false);
+    } catch (error) {
+      console.error('Error deleting plant:', error); // Log error details
+      setErrors('Failed to delete plant.');
+      setTimeout(() => setErrors(""), 3000);
+    }
   };
 
   const handleEdit = (id) => {
     navigate(`/edit/${id}`);
+  };
+
+  const handleDeleteClick = (plantId) => {
+    setPlantToDelete(plantId);
+    setShowDeletePopup(true);
   };
 
   return (
@@ -61,7 +72,6 @@ const ViewPlant = () => {
       {successMessage && <p className="text-success"><h2>{successMessage}</h2></p>}
       {errors && <p className="text-danger"><h2>{errors}</h2></p>}
       {loading && <p><ThreeDot variant="bounce" color="#32cd32" size="medium" text="" textColor="" />Loading...</p>}
-      {!loading && !errors && plant.length === 0 && <p>No plants available</p>}
       <table className="table table-light table-striped" role="table">
         <thead>
           <tr>
@@ -74,6 +84,13 @@ const ViewPlant = () => {
           </tr>
         </thead>
         <tbody>
+          {!loading && !errors && plant.length === 0 && (
+            <tr>
+              <td colSpan="6" className="text-center">
+                <h3>Oops! No plants found.</h3>
+              </td>
+            </tr>
+          )}
           {plant.length > 0 && plant.map((myPlant) => (
             <tr key={myPlant.plantId || myPlant.name}>
               <td><img src={myPlant.plantImage} alt={myPlant.name} width="100" /></td>
@@ -83,12 +100,30 @@ const ViewPlant = () => {
               <td>{myPlant.tips}</td>
               <td>
                 <button onClick={() => handleEdit(myPlant.plantId)} className="btn btn-primary">Edit</button>
-                <button onClick={() => handleDelete(myPlant.plantId)} className="btn btn-danger">Delete</button>
+                <button onClick={() => handleDeleteClick(myPlant.plantId)} className="btn btn-danger">Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Delete Confirmation Popup */}
+      <Modal show={showDeletePopup} onHide={() => setShowDeletePopup(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this plant?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDeletePopup(false)}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
