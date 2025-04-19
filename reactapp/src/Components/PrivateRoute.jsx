@@ -28,7 +28,8 @@ const PrivateRoute = ({ children, requiredRole }) => {
     return (
       <div className="text-center mt-5">
         <h1 className="text-danger">Access Denied</h1>
-        <p>You do not have permission to access this page.</p>
+        <p style={{color:'black'}}>You do not have permission to access this page.</p>
+        <img style={{height:'700px',width:'500px'}} src="accessimg.png"></img>
       </div>
     );
   }

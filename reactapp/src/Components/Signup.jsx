@@ -121,7 +121,7 @@ const Signup = () => {
                                         onChange={handleChange}
                                         placeholder="Username"
                                     />
-                                    {errors.username && <small className="text-danger">{errors.username}</small>}
+                                    {errors.username && <small className="te" style={{color:'rgb(255, 145, 0)'}}>{errors.username}</small>}
                                 </div>
                                 <div className="form-group mb-3">
                                     <label htmlFor="email" style={{color: 'white'}}>Email <span className="text-danger">*</span></label>
@@ -134,7 +134,7 @@ const Signup = () => {
                                         onChange={handleChange}
                                         placeholder="Email"
                                     />
-                                    {errors.email && <small className="text-danger">{errors.email}</small>}
+                                    {errors.email && <small className="te" style={{color:'rgb(255, 145, 0)'}}>{errors.email}</small>}
                                 </div>
                                 <div className="form-group mb-3">
                                     <label htmlFor="mobileNumber" style={{color: 'white'}}>Mobile Number <span className="text-danger">*</span></label>
@@ -147,7 +147,7 @@ const Signup = () => {
                                         onChange={handleChange}
                                         placeholder="Mobile Number"
                                     />
-                                    {errors.mobileNumber && <small className="text-danger">{errors.mobileNumber}</small>}
+                                    {errors.mobileNumber && <small className="te" style={{color:'rgb(255, 145, 0)'}}>{errors.mobileNumber}</small>}
                                 </div>
                                 <div className="form-group mb-3">
                                     <label htmlFor="password" style={{color: 'white'}}>Password <span className="text-danger">*</span></label>
@@ -161,7 +161,7 @@ const Signup = () => {
                                         placeholder="Password"
 
                                     />
-                                    {errors.password && <small className="text-danger">{errors.password}</small>}
+                                    {errors.password && <small className="te" style={{color:'rgb(255, 145, 0)'}}>{errors.password}</small>}
                                 </div>
                                 <div className="form-group mb-3">
                                     <label htmlFor="confirmPassword" style={{color: 'white'}}>Confirm Password <span className="text-danger">*</span></label>
@@ -175,7 +175,7 @@ const Signup = () => {
                                         placeholder="Confirm Password"
 
                                     />
-                                    {errors.confirmPassword && <small className="text-danger">{errors.confirmPassword}</small>}
+                                    {errors.confirmPassword && <small className="te" style={{color:'rgb(255, 145, 0)'}}>{errors.confirmPassword}</small>}
                                 </div>
                                 <div className="form-group mb-3">
                                     <label htmlFor="userRole" style={{color: 'white'}}>Role <span className="text-danger">*</span></label>
@@ -191,7 +191,7 @@ const Signup = () => {
                                         <option value="Customer">Customer</option>
                                         <option value="Gardener">Gardener</option>
                                     </select>
-                                    {errors.userRole && <small className="text-danger">{errors.userRole}</small>}
+                                    {errors.userRole && <small className="te" style={{color:'rgb(255, 145, 0)'}}>{errors.userRole}</small>}
                                 </div>
                                 <button type="submit" className="btn btn-primary">Submit</button>
                             </form>
@@ -204,9 +204,6 @@ const Signup = () => {
                                                 <h5 className="modal-title">Signup Successful</h5>
                                                 <img src="plant.png" className='plant'></img>
                                                 <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
-                                            </div>
-                                            <div className="modal-body">
-                                                <p>User Registration is Successful!</p>
                                             </div>
                                             <div className="modal-footer">
                                                 <button type="button" className="btn btn-primary" onClick={() => window.location.href = '/login'}>Ok</button>

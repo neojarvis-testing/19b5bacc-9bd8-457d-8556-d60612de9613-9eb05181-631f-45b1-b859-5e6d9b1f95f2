@@ -66,8 +66,8 @@ body {
   }
   
   .error {
-    color: red;
-    font-size: 0.875rem;
+    color:rgb(26, 255, 0);
+    
     margin-top: 5px;
   }
 

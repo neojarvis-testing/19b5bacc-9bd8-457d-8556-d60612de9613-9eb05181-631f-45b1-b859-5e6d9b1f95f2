@@ -21,13 +21,13 @@ const GardenerNavbar = () => {
   return (
     <>
     <Navbar bg="success" variant="dark" expand="lg">
-        <Navbar.Brand href="#home">Garden Mentor</Navbar.Brand>
+        <Navbar.Brand href="#home"><b style={{fontSize:'19px'}}>Garden Mentor</b></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-        <div className='text-white border border-white p-2'>
+        <div style={{marginLeft:'50px'}} className='text-white border border-white p-2'>
           <span >{userName}</span> / <span>{role}</span>
         </div>
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto">
+          <Nav style={{height:'40px'}} className="ml-auto">
             <Nav.Link href="/home" className='home'>Home</Nav.Link>
             <Dropdown>
               <Dropdown.Toggle as={Nav.Link} className="plant">
@@ -38,7 +38,7 @@ const GardenerNavbar = () => {
                 <Dropdown.Item href="/view">View Plant</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-            <button variant="outline-danger" className="ml-2" onClick={handleShow}>Logout</button>
+            <button style={{color:'white',backgroundColor:'red',height:'40px',width:'70px'}}  className="ml-2" onClick={handleShow}>Logout</button>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

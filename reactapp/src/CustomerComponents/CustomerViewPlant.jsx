@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import CustomerNavbar from './CustomerNavbar';
 import 'bootstrap/dist/css/bootstrap.css';
 import API_BASE_URL from '../apiConfig';
-
+ 
 const ViewPlant = () => {
   const navigate = useNavigate();
   const [plant, setPlant] = useState([]);
@@ -12,7 +12,7 @@ const ViewPlant = () => {
   const [errors, setErrors] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [searchTerm, setSearchTerm] = useState(''); // New state for search term
-
+ 
   const fetchPlants = async () => {
     setLoading(true);
     try {
@@ -28,17 +28,17 @@ const ViewPlant = () => {
       setLoading(false);
     }
   };
-
+ 
   useEffect(() => {
     fetchPlants();
   }, []);
-
+ 
   // Filtered plants based on the search term
   const filteredPlants = plant.filter((myPlant) =>
     myPlant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     myPlant.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
+ 
   return (
     <div>
       <CustomerNavbar />
@@ -46,7 +46,7 @@ const ViewPlant = () => {
       {successMessage && <p className="text-success"><h2>{successMessage}</h2></p>}
       {errors && <p className="text-danger"><h2>{errors}</h2></p>}
       {loading && <p>Loading...</p>}
-      {!loading && !errors && plant.length === 0 && <p>No plants available</p>}
+      {!loading && !errors && plant.length === 0 && <p>Oops! No plants found</p>}
       <div className="py-2">
         {/* Search Input */}
         <input
@@ -68,7 +68,13 @@ const ViewPlant = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredPlants.length > 0 ? (
+          {plant.length === 0 ? (
+            <tr>
+              <td colSpan="5" style={{ textAlign: 'center' }}>
+                Oops! No plants found.
+              </td>
+            </tr>
+          ) : filteredPlants.length > 0 ? (
             filteredPlants.map((myPlant) => (
               <tr key={myPlant.plantId || myPlant.name}>
                 <td>
@@ -83,7 +89,7 @@ const ViewPlant = () => {
           ) : (
             <tr>
               <td colSpan="5" style={{ textAlign: 'center' }}>
-                No plants match your search
+                No plants match your search. 
               </td>
             </tr>
           )}
@@ -92,5 +98,5 @@ const ViewPlant = () => {
     </div>
   );
 };
-
+ 
 export default ViewPlant;

@@ -147,17 +147,16 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
     };
  
     return (
-        <div className="container mt-5">
-            <GardenerNavbar />
-            <button className="btn btn-link mb-3" onClick={() => navigate(-1)}>
-                Back
-            </button>
-            <div className="card mx-auto" style={{ maxWidth: '600px' }}>
+        <div className="c">
+           
+            <div className='navB'><GardenerNavbar /></div>
+           
+            <div  className="card mx-auto" style={{ maxWidth: '600px',marginTop:'60px' }}>
                 <div className="card-body p-4">
-                    <h2 className="card-title text-center mb-4">{isEditing ? 'Edit Plant' : 'Create New Plant'}</h2>
+                    <h2 style={{color:'white'}} className="card-title text-center mb-4">{isEditing ? 'Edit Plant' : 'Create New Plant'}</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="form-group mb-3">
-                            <label htmlFor="name">Name<span className="text-danger">*</span></label>
+                            <label htmlFor="name" style={{color:'white'}}>Name<span className="text-danger">*</span></label>
                             <input
                                 type="text"
                                 id="name"
@@ -169,7 +168,7 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
                             {errors.name && <small className="text-danger">{errors.name}</small>}
                         </div>
                         <div className="form-group mb-3">
-                            <label htmlFor="category">Category<span className="text-danger">*</span></label>
+                            <label htmlFor="category" style={{color:'white'}}>Category<span className="text-danger">*</span></label>
                             <select
                                 id="category"
                                 name="category"
@@ -189,7 +188,7 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
                             {errors.category && <small className="text-danger">{errors.category}</small>}
                         </div>
                         <div className="form-group mb-3">
-                            <label htmlFor="price">Price<span className="text-danger">*</span></label>
+                            <label htmlFor="price" style={{color:'white'}}>Price<span className="text-danger">*</span></label>
                             <input
                                 type="number"
                                 id="price"
@@ -201,7 +200,7 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
                             {errors.price && <small className="text-danger">{errors.price}</small>}
                         </div>
                         <div className="form-group mb-3">
-                            <label htmlFor="tips">Tips<span className="text-danger">*</span></label>
+                            <label htmlFor="tips" style={{color:'white'}}>Tips<span className="text-danger">*</span></label>
                             <input
                                 type="text"
                                 id="tips"
@@ -213,7 +212,7 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
                             {errors.tips && <small className="text-danger">{errors.tips}</small>}
                         </div>
                         <div className="form-group mb-3">
-                            <label htmlFor="plantImage">Plant Image<span className="text-danger">*</span></label>
+                            <label htmlFor="plantImage" style={{color:'white'}}>Plant Image<span className="text-danger">*</span></label>
                             <input
                                 type="file"
                                 id="plantImage"
@@ -233,7 +232,10 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
                                 </div>
                             )}
                         </div>
-                        <button type="submit" className="btn btn-primary btn-block" disabled={loading}>                            
+                        <button style={{color:'#00ABFF',fontSize:'20px'}} className="btn btn-link mb-3" onClick={() => navigate(-1)}>
+                Back
+            </button>
+                        <button type="submit" style={{marginLeft:'360px'}} className="btn btn-primary btn-block" disabled={loading}>                            
                                 {isEditing ? (loading ? 'Updating...' : 'Update') : (loading ? 'Adding...' : 'Add Plant')}
                         </button>
                     </form>
