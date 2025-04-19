@@ -11,4 +11,15 @@
   p {
     font-size: 1rem;
   }
+
+  .im2{
+    height:500px;
+    width:400px;
+    margin-left:550px;
+  }
+
+.text-muted{
+  margin-left:650px;
+  font-size: 30px;
+}
   

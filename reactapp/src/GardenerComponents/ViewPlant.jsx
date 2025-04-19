@@ -84,7 +84,7 @@ const ViewPlant = () => {
           </tr>
         </thead>
         <tbody>
-          {!loading && !errors && plant.length === 0 && (
+          {!loading && !errors && plant?.length === 0 && (
             <tr>
               <td colSpan="6" className="text-center">
                 <h3>Oops! No plants found.</h3>
