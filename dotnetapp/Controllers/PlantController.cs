@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using dotnetapp.Models;
 using dotnetapp.Services;
-
+ 
 namespace dotnetapp.Controllers
 {
     [ApiController]
@@ -18,14 +18,14 @@ namespace dotnetapp.Controllers
         public PlantController(PlantService plantService){
             _plantService = plantService;
         }
-
+ 
         [HttpGet]
         [Authorize(Roles = "Gardener, Customer")]
         public async Task<ActionResult<IEnumerable<Plant>>>GetAllPlants(){
             var plants =await _plantService.GetAllPlants();
             return Ok(plants);
         }
-        
+       
         [HttpGet("{plantId}")]
         [Authorize(Roles = "Gardener")]
         public async Task <ActionResult<Plant>>GetPlantById(int plantId){
@@ -35,38 +35,60 @@ namespace dotnetapp.Controllers
             }
             return Ok(plant);
         }
-
-        [HttpPost]
-        [Authorize(Roles = "Gardener")]
-        public async Task<ActionResult>AddPlant([FromBody] Plant plant){
-            try{
-                var result=await _plantService.AddPlant(plant);
-                if(result){
-                    return Ok("Plant added successfully");
-                }
-                return StatusCode(500,"Failed to add plant");
+ 
+       [HttpPost]
+       [Authorize(Roles = "Gardener")]
+       public async Task<ActionResult> AddPlant([FromBody] Plant plant)
+    {
+        try
+        {
+            if (plant == null || string.IsNullOrEmpty(plant.Name) || plant.Price <= 0)
+            {
+                return BadRequest("Invalid plant details");
             }
-            catch(Exception ex){
-                return StatusCode(500,ex.Message);
+ 
+            var nameCheck = await _plantService.AddPlant(plant);
+            if (!nameCheck)
+            {
+                return BadRequest("A plant with this name already exists");
             }
+ 
+            return Ok("Plant added successfully");
         }
-
+        catch (Exception)
+        {
+            return StatusCode(500, "An unexpected error occurred. Please try again later.");
+        }
+    }
+ 
         [HttpPut("{plantId}")]
         [Authorize(Roles = "Gardener")]
-        public async Task<ActionResult>UpdatePlant(int plantId, [FromBody] Plant plant){
-            try{
-                var result=await _plantService.UpdatePlant(plantId,plant);
-                if(result){
-                    return Ok("Plant updated successfully");
-                }
-                return NotFound("Cannot find any plant");
+    public async Task<ActionResult> UpdatePlant(int plantId, [FromBody] Plant plant)
+    {
+        try
+        {
+            var existingPlant = await _plantService.GetPlantById(plantId);
+            if (existingPlant == null)
+            {
+                return NotFound("Plant not found");
             }
-            catch(Exception ex){
-                return StatusCode(500, ex.Message);
+ 
+            var categoryCheck = await _plantService.UpdatePlant(plantId, plant);
+            if (!categoryCheck)
+            {
+                return BadRequest("A plant with this category already exists");
             }
+ 
+            return Ok("Plant updated successfully");
         }
-
-
+        catch (Exception)
+        {
+            return StatusCode(500, "An unexpected error occurred. Please try again later.");
+        }
+    }
+ 
+ 
+ 
         [HttpDelete("{plantId}")]
         [Authorize(Roles = "Gardener")]
         public async Task<ActionResult> DeletePlant(int plantId)
@@ -81,7 +103,7 @@ namespace dotnetapp.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
             }
         }
     }

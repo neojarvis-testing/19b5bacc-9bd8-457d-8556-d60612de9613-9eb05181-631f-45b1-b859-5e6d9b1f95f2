@@ -5,7 +5,7 @@ import API_BASE_URL from '../apiConfig';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
- 
+
 const PlantForm = ({ isEditing, initialData = {} }) => {
     const [formData, setFormData] = useState({
         name: '',
@@ -18,12 +18,13 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
+    const [formError, setFormError] = useState('');
     const navigate = useNavigate();
     const { id } = useParams();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
- 
+
     // Fetch plant data when editing
     useEffect(() => {
         if (isEditing) {
@@ -45,16 +46,16 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
                     });
                     setFileName(response.data.plantImage ? 'Current Image' : '');
                 } catch (error) {
-                    console.error('Error fetching plant:', error);
+                    setFormError('Error fetching plant data');
                 } finally {
                     setLoading(false);
                 }
             };
- 
+    
             fetchPlant();
         }
     }, [isEditing, id]);
- 
+    
     const validateForm = () => {
         const newErrors = {};
         if (!formData.name) newErrors.name = 'Name is required';
@@ -65,10 +66,10 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
- 
+    
     const handleChange = (e) => {
         const { name, value, files } = e.target;
- 
+    
         if (files && files.length > 0) {
             const file = files[0];
             setFileName(file.name);
@@ -87,76 +88,94 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
             }));
         }
     };
- 
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
- 
+    
         if (!validateForm()) return;
- 
+    
         setLoading(true);
- 
+    
         try {
             const token = localStorage.getItem('token');
             const headers = {
                 Authorization: `Bearer ${token}`,
             };
- 
+    
             if (isEditing) {
-                const response = await axios.put(
-                    `${API_BASE_URL}/Plant/${id}`,
-                    formData,
-                    { headers }
-                );
-                console.log('Plant updated successfully:', response.data);
-                // navigate('/view');
+                // Fetch the current plant data
+                const currentPlantResponse = await axios.get(`${API_BASE_URL}/Plant/${id}`, {
+                    headers,
+                });
+                const currentCategory = currentPlantResponse.data.category;
+    
+                if (formData.category === currentCategory) {
+                    setFormError('Please choose a different category.');
+                    setLoading(false);
+                    return;
+                }
+    
+                // PUT request to update the plant
+                await axios.put(`${API_BASE_URL}/Plant/${id}`, formData, { headers });
+                setShowPopup(true); // Show success popup
             } else {
-                const response = await axios.post(
-                    `${API_BASE_URL}/Plant`,
-                    formData,
-                    { headers }
-                );
-                console.log('Plant added successfully:', response.data);
-           
+                // Check if the name already exists
+                const existingPlantsResponse = await axios.get(`${API_BASE_URL}/Plant`, {
+                    headers,
+                });
+                const existingPlant = existingPlantsResponse.data.find(plant => plant.name === formData.name);
+    
+                if (existingPlant) {
+                    setFormError('Name already exists. Cannot add the plant.');
+                    setLoading(false);
+                    return;
+                }
+    
+                // POST request to create a new plant
+                await axios.post(`${API_BASE_URL}/Plant`, formData, { headers });
+                setShowPopup(true); // Show success popup
             }
- 
+    
             setLoading(false);
-            setShowPopup(true);
         } catch (error) {
             setLoading(false);
             console.error('Error saving plant:', error);
- 
+            console.error('Error details:', error.response ? error.response.data : error.message);
+    
             if (error.response) {
-                console.error('Error response:', error.response.data); // Log backend error details
-            } else if (error.request) {
-                console.error('No response received:', error.request); // Log request details if no response
+                if (error.response.status === 400 && !isEditing) {
+                    const errorMessage = error.response.data.message || 'An error occurred. Please try again.';
+                    setFormError(errorMessage);
+                } else if (error.response.status === 401) {
+                    localStorage.removeItem('token');
+                    navigate('/');
+                } else {
+                    setFormError('An error occurred while saving the plant. Please try again.');
+                }
             } else {
-                console.error('Error setting up request:', error.message); // Log any other errors
-            }
- 
-            if (error.response && error.response.status === 401) {
-                console.error('Unauthorized: Redirecting to login');
-                localStorage.removeItem('token');
-                navigate('/');
+                setFormError('An error occurred while saving the plant. Please try again.');
             }
         }
     };
- 
+    
+    
     const handlePopupClose = () => {
         setShowPopup(false);
         navigate('/view');
     };
- 
+
     return (
         <div className="c">
-           
             <div className='navB'><GardenerNavbar /></div>
-           
-            <div  className="card mx-auto" style={{ maxWidth: '600px',marginTop:'60px' }}>
+            <div className="card mx-auto" style={{ maxWidth: '600px', marginTop: '60px' }}>
                 <div className="card-body p-4">
-                    <h2 style={{color:'white'}} className="card-title text-center mb-4">{isEditing ? 'Edit Plant' : 'Create New Plant'}</h2>
+                    <h2 style={{ color: 'white' }} className="card-title text-center mb-4">
+                        {isEditing ? 'Edit Plant' : 'Create New Plant'}
+                    </h2>
+                    {formError && <div className="alert alert-danger">{formError}</div>}
                     <form onSubmit={handleSubmit}>
                         <div className="form-group mb-3">
-                            <label htmlFor="name" style={{color:'white'}}>Name<span className="text-danger">*</span></label>
+                            <label htmlFor="name" style={{ color: 'white' }}>Name<span className="text-danger">*</span></label>
                             <input
                                 type="text"
                                 id="name"
@@ -168,7 +187,7 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
                             {errors.name && <small className="text-danger">{errors.name}</small>}
                         </div>
                         <div className="form-group mb-3">
-                            <label htmlFor="category" style={{color:'white'}}>Category<span className="text-danger">*</span></label>
+                            <label htmlFor="category" style={{ color: 'white' }}>Category<span className="text-danger">*</span></label>
                             <select
                                 id="category"
                                 name="category"
@@ -188,7 +207,7 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
                             {errors.category && <small className="text-danger">{errors.category}</small>}
                         </div>
                         <div className="form-group mb-3">
-                            <label htmlFor="price" style={{color:'white'}}>Price<span className="text-danger">*</span></label>
+                            <label htmlFor="price" style={{ color: 'white' }}>Price<span className="text-danger">*</span></label>
                             <input
                                 type="number"
                                 id="price"
@@ -200,7 +219,7 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
                             {errors.price && <small className="text-danger">{errors.price}</small>}
                         </div>
                         <div className="form-group mb-3">
-                            <label htmlFor="tips" style={{color:'white'}}>Tips<span className="text-danger">*</span></label>
+                            <label htmlFor="tips" style={{ color: 'white' }}>Tips<span className="text-danger">*</span></label>
                             <input
                                 type="text"
                                 id="tips"
@@ -212,7 +231,7 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
                             {errors.tips && <small className="text-danger">{errors.tips}</small>}
                         </div>
                         <div className="form-group mb-3">
-                            <label htmlFor="plantImage" style={{color:'white'}}>Plant Image<span className="text-danger">*</span></label>
+                            <label htmlFor="plantImage" style={{ color: 'white' }}>Plant Image<span className="text-danger">*</span></label>
                             <input
                                 type="file"
                                 id="plantImage"
@@ -232,16 +251,18 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
                                 </div>
                             )}
                         </div>
-                        <button style={{color:'#00ABFF',fontSize:'20px'}} className="btn btn-link mb-3" onClick={() => navigate(-1)}>
-                Back
-            </button>
-                        <button type="submit" style={{marginLeft:'360px'}} className="btn btn-primary btn-block" disabled={loading}>                            
-                                {isEditing ? (loading ? 'Updating...' : 'Update') : (loading ? 'Adding...' : 'Add Plant')}
+                        <button style={{ color: '#00ABFF', fontSize: '20px' }} className="btn btn-link mb-3" onClick={() => navigate(-1)}>
+                            Back
+                        </button>
+                        <button type="submit" style={{ marginLeft: '360px' }} className="btn btn-primary btn-block" disabled={loading}>
+                            {isEditing ? (loading ? 'Updating...' : 'Update') : (loading ? 'Adding...' : 'Add Plant')}
                         </button>
                     </form>
                 </div>
             </div>
- 
+
+           
+           
             {/* Success Popup */}
             <Modal show={showPopup} onHide={handlePopupClose}>
                 <Modal.Header closeButton>
