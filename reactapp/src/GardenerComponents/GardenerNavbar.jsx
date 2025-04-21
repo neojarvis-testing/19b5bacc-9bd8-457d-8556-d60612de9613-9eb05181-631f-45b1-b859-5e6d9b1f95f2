@@ -19,29 +19,29 @@ const GardenerNavbar = () => {
   const handleShow = () => setShow(true);
   
   return (
-    <>
-    <Navbar bg="success" variant="dark" expand="lg">
-        <Navbar.Brand href="#home"><b style={{fontSize:'19px'}}>Garden Mentor</b></Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-        <div style={{marginLeft:'50px'}} className='text-white border border-white p-2'>
-          <span >{userName}</span> / <span>{role}</span>
-        </div>
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav style={{height:'40px'}} className="ml-auto">
-            <Nav.Link href="/home" className='home'>Home</Nav.Link>
-            <Dropdown>
-              <Dropdown.Toggle as={Nav.Link} className="plant">
-                Plant
-              </Dropdown.Toggle>
+    <div className='w-100'>
+      
+      <nav className="navbar navbar-expand-lg navbar-dark ">
+        <div className="container-fluid">
+        <div className='d-flex gap-2 align-items-center'>
+            <img src="./sunflower.svg" alt="nav-icon" className='logo'/>
+          <h2 className="text-white">Garden Mentor</h2>
+          </div>
+          <div className="d-flex justyfy-content-between align-items-center gap-4">
+          <div style={{marginLeft:'50px'}} className='text-white border border-white p-2'> <span >{userName}</span> / <span>{role}</span> </div>
+          <span onClick={() => navigate('/home')} className='text-white pointer'>Home</span>
+          
+            <Dropdown className='transparent-dropdown'>
+              <Dropdown.Toggle as="span" className="cursor text-white cursor-pointer">Plant</Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item href="/Plant">Add Plant</Dropdown.Item>
                 <Dropdown.Item href="/view">View Plant</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-            <button style={{color:'white',backgroundColor:'red',height:'40px',width:'70px'}}  className="ml-2" onClick={handleShow}>Logout</button>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+            <button className="btn btn-outline-light mx-2" onClick={handleShow}>Logout</button>
+          </div>
+        </div>
+      </nav>
 
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
@@ -56,7 +56,7 @@ const GardenerNavbar = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>  
+    </div>  
   );
 }
 

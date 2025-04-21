@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import API_BASE_URL from '../apiConfig';
 import { ThreeDot } from 'react-loading-indicators';
 import { Button, Modal } from 'react-bootstrap';
+import './ViewPlant.css';
 
 const ViewPlant = () => {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ const ViewPlant = () => {
   };
 
   const handleEdit = (id) => {
-    navigate(`/edit/${id}`);
+        navigate(`/edit/${id}`);
   };
 
   const handleDeleteClick = (plantId) => {
@@ -65,14 +66,24 @@ const ViewPlant = () => {
     setShowDeletePopup(true);
   };
 
+  const textDec ={
+    fontSize:'10px'
+  }
+  const minWid ={
+    width:'575px'
+  }
+
   return (
-    <div>
-      <GardenerNavbar />
-      <h2 style={{ textAlign: "center" }}>Plants</h2>
+    <div className='plant-list'>
+      <div className='blur py-3'>
+        <div className='px-3'>
+          <GardenerNavbar />
+        </div>
+      <h2 className=' text-white text-center p-2'>Plants</h2>
       {successMessage && <p className="text-success"><h2>{successMessage}</h2></p>}
       {errors && <p className="text-danger"><h2>{errors}</h2></p>}
-      {loading && <p><ThreeDot variant="bounce" color="#32cd32" size="medium" text="" textColor="" />Loading...</p>}
-      <table className="table table-light table-striped" role="table">
+      
+      <table className="table table-striped d-none" role="table">
         <thead>
           <tr>
             <th>Image</th>
@@ -98,14 +109,60 @@ const ViewPlant = () => {
               <td>{myPlant.category}</td>
               <td>{myPlant.price}</td>
               <td>{myPlant.tips}</td>
-              <td>
-                <button onClick={() => handleEdit(myPlant.plantId)} className="btn btn-primary">Edit</button>
-                <button onClick={() => handleDeleteClick(myPlant.plantId)} className="btn btn-danger">Delete</button>
-              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+        <div className='row bg-transparent text-white '>
+          {loading &&
+            <div className='d-flex flex-column align-items-center justify-content-center'>
+              <ThreeDot variant="bounce" color="#32cd32" size="medium" text="" textColor="" /><p className="text-center">Loading...</p>
+            </div>}
+
+          {!loading && !errors && plant?.length === 0 && (
+              <span colSpan="6" className="text-center">
+                <h3>Oops! No plants found.</h3>
+              </span>
+          )}
+          
+          {plant.length > 0 && plant.map((myPlant) => (
+            <div style={minWid} className="m-4 p-4 border border-white col-md-4 " key={myPlant.plantId}>
+              <div className='d-flex justify-content-between gap-5'>
+                <div>
+                  <img src={myPlant.plantImage} alt={myPlant.name} width="250" height="175" />
+                </div>
+                <div className='d-flex flex-column justify-content-between w-50'>
+                  <div className='d-flex gap-3'>
+                    <span>Name: </span>
+                    <span>{myPlant.name}</span>
+                  </div>
+
+                  <div className='d-flex gap-3'>
+                    <span>Category: </span>
+                    <span>{myPlant.category}</span>
+                  </div>
+
+                  <div className='d-flex gap-3'>
+                    <span>Price: </span>
+                    <span><i class="bi bi-currency-rupee"/>{myPlant.price}</span>
+                  </div>
+
+                  <div className='d-flex gap-3'>
+                    <span>Tips: </span>
+                    <span>{myPlant.tips}</span>
+                  </div>
+
+                  <div className='d-flex justify-content-between gap-4'>
+                    <button onClick={() => handleEdit(myPlant.plantId)} className="btn btn-outline-light ">Edit</button>
+                    <button onClick={() => handleDeleteClick(myPlant.plantId)} className="btn btn-outline-light">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
 
       {/* Delete Confirmation Popup */}
       <Modal show={showDeletePopup} onHide={() => setShowDeletePopup(false)}>
@@ -124,6 +181,7 @@ const ViewPlant = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      </div>
     </div>
   );
 };

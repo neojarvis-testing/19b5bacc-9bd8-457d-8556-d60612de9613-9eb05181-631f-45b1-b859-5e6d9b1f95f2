@@ -20,10 +20,6 @@ const Signup = () => {
 
     const validatePassword = (password) => {
         let passErrors = [];
-   
-        if (!password.trim()) {
-            passErrors.push("Password is required.");
-        }
         if (password.length < 6) {
             passErrors.push("Password must be at least 6 characters long.");
         }
@@ -33,6 +29,7 @@ const Signup = () => {
         if (!/[a-z]/.test(password)) {
             passErrors.push("Password must contain at least one lowercase letter.");
         }
+
         if (!/\d/.test(password)) {
             passErrors.push("Password must contain at least one number.");
         }
@@ -63,7 +60,10 @@ const Signup = () => {
         } else if (!/^\d{10}$/.test(formData.mobileNumber)) {
             errors.mobileNumber = 'Mobile number must be 10 digits';
         }
-        if (passwordErrors.length > 0) {
+        if(!formData.password.trim()){
+            errors.password = 'Password is required';
+        }
+        else if(passwordErrors.length > 0) {
             errors.password = passwordErrors.join("\n");
         }
         if (!formData.confirmPassword.trim()) {
@@ -80,23 +80,26 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const validationErrors = validateForm();
-        // const validationErrors = Object.keys(validateForm).reduce((acc, key) => {
-        //     const error = validateForm[key](formData[key]);
-        //     if (error) acc[key] = error;
-        //     return acc;
-        //   }, {});
         setErrors(validationErrors);
+    
         if (Object.keys(validationErrors).length === 0) {
-            await axios.post(`${API_BASE_URL}/register`, formData).then((res) => {
-                setMessage('Successful!');
-                setShowModal(true);
-
-            }).catch(() => {
-                setFormError("Signup failed!")
-            });
+            try {
+                await axios.post(`${API_BASE_URL}/register`, formData);
+                // navigate('/');
+                setShowModal(true); 
+            } catch (error) {
+                if (error.response && error.response.status === 400) {
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        email: error.response.data.message || "Email already exists!"
+                    }));
+                } else {
+                    setFormError("Signup failed!");
+                }
+            }
         }
     };
-
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -206,7 +209,7 @@ const Signup = () => {
                                                 <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
                                             </div>
                                             <div className="modal-footer">
-                                                <button type="button" className="btn btn-primary" onClick={() => window.location.href = '/login'}>Ok</button>
+                                                <button type="button" className="btn btn-primary" onClick={() => navigate('/')}>Ok</button>
                                             </div>
                                         </div>
                                     </div>

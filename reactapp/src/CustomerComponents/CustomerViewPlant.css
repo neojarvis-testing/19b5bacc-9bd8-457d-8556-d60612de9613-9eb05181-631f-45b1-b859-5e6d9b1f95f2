@@ -1,0 +1,29 @@
+.plant-list{
+    background: url('/home/coder/project/workspace/reactapp/public/background1.jpg') no-repeat center center;
+    background-size: cover;  
+    background-position: center;
+  }
+  
+  .blur{
+    backdrop-filter: blur(20px);
+  }
+
+  .transparent-input {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+  }
+
+  .transparent-input::placeholder {
+    color: white; 
+    opacity: 0.7; 
+  }
+
+  .transparent-input:focus {
+    background-color: transparent;
+    color: white; 
+    outline: none; 
+    border: 1px solid white; 
+    box-shadow: none;
+  }
+  

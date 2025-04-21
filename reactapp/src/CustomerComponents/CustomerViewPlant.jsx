@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import CustomerNavbar from './CustomerNavbar';
 import 'bootstrap/dist/css/bootstrap.css';
 import API_BASE_URL from '../apiConfig';
+import { ThreeDot } from 'react-loading-indicators';
+import './CustomerViewPlant.css'
+
  
 const ViewPlant = () => {
   const navigate = useNavigate();
@@ -38,26 +41,32 @@ const ViewPlant = () => {
     myPlant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     myPlant.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const minWid ={
+    width:'575px'
+  }
  
   return (
-    <div>
-      <CustomerNavbar />
-      <h2 style={{ textAlign: 'center' }}>Available Plants</h2>
+    <div className='plant-list'>
+      <div className='blur py-3'>
+        <div className='px-3'>
+          <CustomerNavbar />
+        </div>
+      <h2 className='text-center text-white p-2'>Available Plants</h2>
       {successMessage && <p className="text-success"><h2>{successMessage}</h2></p>}
       {errors && <p className="text-danger"><h2>{errors}</h2></p>}
-      {loading && <p>Loading...</p>}
-      {!loading && !errors && plant.length === 0 && <p>Oops! No plants found</p>}
-      <div className="py-2">
-        {/* Search Input */}
+      {/* {loading && <p>Loading...</p>}
+      {!loading && !errors && plant.length === 0 && <p>Oops! No plants found</p>} */}
+      <div className="mx-2 px-4 py-2 w-25">
         <input
           type="text"
           placeholder="Search plants..."
-          className="form-control"
+          className="form-control border transparent-input"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <table className="table table-light table-striped" role="table">
+      <table className="table table-light table-striped d-none" role="table">
         <thead>
           <tr>
             <th>Image</th>
@@ -95,6 +104,69 @@ const ViewPlant = () => {
           )}
         </tbody>
       </table>
+
+
+        <div className="row bg-transparent text-white">
+          {loading && (
+            <div className="d-flex flex-column align-items-center justify-content-center">
+              <ThreeDot variant="bounce" color="#32cd32" size="medium" text="" textColor="" />
+              <p className="text-center">Loading...</p>
+            </div>
+          )}
+
+          {!loading && errors && (
+            <div className="text-center">
+              <h3>Something went wrong. Please try again later.</h3>
+            </div>
+          )}
+
+          {!loading && !errors && plant?.length === 0 && (
+            <div className="text-center">
+              <h3>Oops! No plants found.</h3>
+            </div>
+          )}
+
+          {!loading && !errors && filteredPlants.length > 0 ? (
+            filteredPlants.map((myPlant) => (
+              <div
+                style={minWid}
+                className="m-4 p-4 border border-white col-md-4"
+                key={myPlant.plantId}
+              >
+                <div className="d-flex justify-content-between gap-5">
+                  <div>
+                    <img src={myPlant.plantImage} alt={myPlant.name} width="250" height="175" />
+                  </div>
+                  <div className="d-flex flex-column justify-content-between w-50">
+                    <div className="d-flex gap-3">
+                      <span>Name: </span>
+                      <span>{myPlant.name}</span>
+                    </div>
+                    <div className="d-flex gap-3">
+                      <span>Category: </span>
+                      <span>{myPlant.category}</span>
+                    </div>
+                    <div className="d-flex gap-3">
+                      <span>Price: </span>
+                      <span>
+                        <i className="bi bi-currency-rupee" />
+                        {myPlant.price}
+                      </span>
+                    </div>
+                    <div className="d-flex gap-3">
+                      <span>Tips: </span>
+                      <span>{myPlant.tips}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            !loading && <h4 className="text-center">No plants match your search.</h4>
+          )}
+        </div>
+
+      </div>
     </div>
   );
 };
