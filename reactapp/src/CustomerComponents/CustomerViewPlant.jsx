@@ -48,8 +48,8 @@ const ViewPlant = () => {
  
   return (
     <div className='plant-list'>
-      <div className='blur py-3'>
-        <div className='px-3'>
+      <div className='blur'>
+        <div >
           <CustomerNavbar />
         </div>
       <h2 className='text-center text-white p-2'>Available Plants</h2>
@@ -57,7 +57,7 @@ const ViewPlant = () => {
       {errors && <p className="text-danger"><h2>{errors}</h2></p>}
       {/* {loading && <p>Loading...</p>}
       {!loading && !errors && plant.length === 0 && <p>Oops! No plants found</p>} */}
-      <div className="mx-2 px-4 py-2 w-25">
+      <div className="mx-2 px-4 py-2">
         <input
           type="text"
           placeholder="Search plants..."
