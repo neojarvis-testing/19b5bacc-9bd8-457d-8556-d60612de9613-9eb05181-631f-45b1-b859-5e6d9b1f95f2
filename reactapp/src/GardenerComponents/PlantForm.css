@@ -3,3 +3,9 @@
     justify-content: 'center';
     align-items: 'center';
 }
+.card{
+    background: url('/home/coder/project/workspace/reactapp/public/AddImg.png') no-repeat center center;
+    background-size: cover;  
+    background-position: center;
+   
+}

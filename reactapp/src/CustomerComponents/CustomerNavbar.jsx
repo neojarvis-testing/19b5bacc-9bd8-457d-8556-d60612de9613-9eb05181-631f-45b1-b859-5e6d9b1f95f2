@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Button, Modal, Dropdown } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './CustomerNavbar.css'
 
 
 const CustomerNavbar = () => {
+  const location = useLocation();
+  const isHomeRoute = location.pathname === "/home";
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
 
@@ -24,18 +26,18 @@ const CustomerNavbar = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark ">
+      <nav className="navbar navbar-expand-lg navbar-dark" style={{backgroundColor: isHomeRoute ? "rgba(255,228,196,0.7)" : "", borderRadius: "10px"}}>
         <div className="container-fluid">
           <div className='d-flex gap-2 align-items-center'>
             <img src="./sunflower.svg" alt="nav-icon" className='logo'/>
           <h2 className="text-white">Garden Mentor</h2>
           </div>
-          <div className="d-flex justyfy-content-between align-items-center gap-4">
-            <div style={{ marginLeft: '50px' }} className='text-white border border-white p-2'> <span >{userName}</span> / <span>{role}</span> </div>
-            <span onClick={() => navigate('/home')} className='text-white pointer'>Home</span>
+          <div className="d-flex justyfy-content-between align-items-center gap-4" style={{color: isHomeRoute ? "#663300" : "#fff"}}>
+            <div style={{ marginLeft: '50px' }} className='border border-white p-2'> <span >{userName}</span> / <span>{role}</span> </div>
+            <span onClick={() => navigate('/home')} className='pointer'>Home</span>
 
             <Dropdown className="transparent-dropdown">
-              <Dropdown.Toggle as="span" className="cursor text-white cursor-pointer">
+              <Dropdown.Toggle as="span" className="cursor cursor-pointer">
                 Plant
               </Dropdown.Toggle>
               <Dropdown.Menu>

@@ -19,8 +19,24 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Signup />} />
-        <Route path="/gardenernavbar" element={<GardenerNavbar username="GardenerUser" role="Gardener" />} />
-        <Route path="/customernavbar" element={<CustomerNavbar username="CustomerUser" role="Customer" />} />
+        <Route
+          path="/gardenernavbar"
+          element={
+            <PrivateRoute requiredRole="Gardener">
+              <GardenerNavbar username="GardenerUser" role="Gardener" />
+            </PrivateRoute>
+          }
+        />
+        
+        <Route
+          path="/customernavbar"
+          element={
+            <PrivateRoute requiredRole="Customer">
+              <CustomerNavbar username="CustomerUser" role="Customer" />
+            </PrivateRoute>
+          }
+        />
+ 
         <Route path="/home" element={<HomePage />} />
 
         <Route

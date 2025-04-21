@@ -1,10 +1,13 @@
 import React ,{useState}from 'react';
 import { Navbar, Nav, Button, Dropdown, Modal } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './GardenerNavbar.css'; 
 
 
 const GardenerNavbar = () => {
+  const location = useLocation();
+  const isHomeRoute = location.pathname === "/home";
+  const isAdd = location.pathname === "/Plant";
    const [show, setShow] = useState(false);
   const navigate=useNavigate();
   const handleLogout=()=>
@@ -19,7 +22,7 @@ const GardenerNavbar = () => {
   const handleShow = () => setShow(true);
   
   return (
-    <div className='w-100'>
+    <div className='w-100' style={{backgroundColor: isHomeRoute || isAdd ? "rgba(255,228,196,0.7)" : "", borderRadius: "10px"}}>
       
       <nav className="navbar navbar-expand-lg navbar-dark ">
         <div className="container-fluid">
@@ -27,10 +30,10 @@ const GardenerNavbar = () => {
             <img src="./sunflower.svg" alt="nav-icon" className='logo'/>
           <h2 className="text-white">Garden Mentor</h2>
           </div>
-          <div className="d-flex justyfy-content-between align-items-center gap-4">
-          <div style={{marginLeft:'50px'}} className='text-white border border-white p-2'> <span >{userName}</span> / <span>{role}</span> </div>
-          <span onClick={() => navigate('/home')} className='text-white pointer'>Home</span>
-          
+          <div className="d-flex justify-content-between align-items-center gap-4 font-weight-bold">
+            <div style={{ marginLeft: '50px' }} className='text-white border border-white p-2'> <span >{userName}</span> / <span>{role}</span> </div>
+            <span onClick={() => navigate('/home')} className='text-white pointer'>Home</span>
+
             <Dropdown className='transparent-dropdown'>
               <Dropdown.Toggle as="span" className="cursor text-white cursor-pointer">Plant</Dropdown.Toggle>
               <Dropdown.Menu>

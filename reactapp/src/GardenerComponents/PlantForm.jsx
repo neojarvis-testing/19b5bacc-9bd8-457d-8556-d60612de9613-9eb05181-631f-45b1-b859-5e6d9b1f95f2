@@ -5,6 +5,7 @@ import API_BASE_URL from '../apiConfig';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './PlantForm.css'
 
 const PlantForm = ({ isEditing, initialData = {} }) => {
     const [formData, setFormData] = useState({
@@ -158,15 +159,14 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
         }
     };
     
-    
     const handlePopupClose = () => {
         setShowPopup(false);
         navigate('/view');
     };
 
     return (
-        <div className="c">
-            <div className='navB'><GardenerNavbar /></div>
+        <div className="card">
+            <div className='navB px-3 m-2'><GardenerNavbar /></div>
             <div className="card mx-auto" style={{ maxWidth: '600px', marginTop: '60px' }}>
                 <div className="card-body p-4">
                     <h2 style={{ color: 'white' }} className="card-title text-center mb-4">
