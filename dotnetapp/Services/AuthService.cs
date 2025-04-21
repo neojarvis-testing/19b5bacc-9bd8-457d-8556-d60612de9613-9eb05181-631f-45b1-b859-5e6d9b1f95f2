@@ -43,16 +43,16 @@ namespace dotnetapp.Services
     }
 
     public async Task<(int, object)> Login(LoginModel model)
-    {
-        var user = await context.Users.FirstOrDefaultAsync(i => i.Email == model.Email);
-            if (user == null)
-            {
                 return (400, "Invalid email");
             }
             if (user.Password != model.Password)
             {
                 return (400, "Invalid password");
             }
+    {
+        var user = await context.Users.FirstOrDefaultAsync(i => i.Email == model.Email);
+            if (user == null)
+            {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username),
