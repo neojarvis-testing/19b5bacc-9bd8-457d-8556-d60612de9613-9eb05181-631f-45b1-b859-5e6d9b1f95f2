@@ -158,7 +158,6 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
         }
     };
     
-    
     const handlePopupClose = () => {
         setShowPopup(false);
         navigate('/view');
