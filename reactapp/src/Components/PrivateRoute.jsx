@@ -17,8 +17,7 @@ const getUserRole = () => {
  
 const PrivateRoute = ({ children, requiredRole }) => {
   const role = getUserRole();
- 
-  // If no role is found, redirect to login
+
   if (!role) {
     return <Navigate to="/" replace />;
   }
@@ -26,15 +25,14 @@ const PrivateRoute = ({ children, requiredRole }) => {
   // If the user's role does not match the required role, show "Access Denied"
   if (role !== requiredRole) {
     return (
-      <div className="text-center mt-5">
+      <div className="text-center pt-5">
         <h1 className="text-danger">Access Denied</h1>
-        <p style={{color:'black'}}>You do not have permission to access this page.</p>
-        <img style={{height:'700px',width:'500px'}} src="accessimg.png"></img>
+        <p className='text-black'>You do not have permission to access this page.</p>
+        <img style={{height:'400px',width:'550px'}} src="accessimg.png"></img>
       </div>
     );
   }
- 
-  // If the role matches, render the children
+
   return children;
 };
  

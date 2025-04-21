@@ -7,3 +7,14 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
+  .plant-list{
+    background: url('/home/coder/project/workspace/reactapp/public/background1.jpg') no-repeat center center;
+    background-size: cover;  
+    background-position: center;
+  }
+  .blur{
+    backdrop-filter: blur(20px);
+  }
+  .table {
+    background: transparent !important;
+  }

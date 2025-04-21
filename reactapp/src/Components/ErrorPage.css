@@ -1,25 +1,7 @@
-.container {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 10px;
-  }
-  
-  h1 {
-    font-size: 2rem;
-  }
-  
-  p {
-    font-size: 1rem;
-  }
-
-  .im2{
-    height:500px;
-    width:400px;
-    margin-left:550px;
-  }
-
-.text-muted{
-  margin-left:650px;
-  font-size: 30px;
+.im2{
+  height:400px;
+  width:400px;
 }
-  
+.text-muted{
+  font-size: 25px;
+}
