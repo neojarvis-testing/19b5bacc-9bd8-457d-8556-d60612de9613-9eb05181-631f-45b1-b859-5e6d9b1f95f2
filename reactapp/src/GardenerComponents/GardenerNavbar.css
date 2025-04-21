@@ -2,6 +2,11 @@
     background: linear-gradient(to right, #4caf50, #8bc34a);
   }
   
+  .navbar{
+    background: rgba(68, 162, 68, 0.8);
+    border-radius: 0;
+  }
+
   .navbar-brand {
     color: white !important;
   }
@@ -30,7 +35,7 @@
   .transparent-dropdown .dropdown-menu {
     background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.3); 
-    box-shadow: none; /* Removes default shadow, optional */
+    box-shadow: none;
   }
   
   .transparent-dropdown .dropdown-item {
@@ -38,11 +43,20 @@
   }
   
   .transparent-dropdown .dropdown-item:hover {
-    background-color: rgba(255, 255, 255, 0.2); 
-    color: #32cd32; 
+    background: rgba(68, 162, 68, 0.8);
+    color: #fff; 
   }
   .pointer{
     cursor: pointer;
   }
+
+  .custom-modal .modal-content {
+    background-color: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(10px); 
+    border: #663300;
+    box-shadow: none; 
+    border-radius: 10px; 
+  }
+  
 
   

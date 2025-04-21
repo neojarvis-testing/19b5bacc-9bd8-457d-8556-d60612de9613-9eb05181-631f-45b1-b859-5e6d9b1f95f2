@@ -16,11 +16,12 @@ const HomePage = () => {
   };
   return (
     <div className='home'>
-      <div className='content d-flex flex-column justify-content-between py-3'>
-        <div className='px-3'>
-        
+      <div className='content d-flex flex-column justify-content-between'>
+        <div>
           <span className='bar'>{role === "Customer" ? <CustomerNavbar /> : <GardenerNavbar />}</span>
         </div>
+
+        <span className='heading text-center' >Garden Mentor</span>
 
         <div className='d-flex flex-column justify-content-center align-items-center'>
           <div className='px-5 text-center border border-white w-50'>

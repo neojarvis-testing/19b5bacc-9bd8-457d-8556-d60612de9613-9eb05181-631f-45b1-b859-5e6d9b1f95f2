@@ -19,6 +19,10 @@
     color: rgb(255, 145, 0);
 }
 
+.modal{
+    background-color: rgba(255, 255, 255, 0.1); 
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
 .modal.show {
     display: block;
 }
@@ -52,13 +56,14 @@
 }
 
 .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: rgba(255, 255, 255, 0.1); 
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: brown;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
+    background: rgba(68, 162, 68, 0.8);
+    
 }
 .mt-3{
     color:black

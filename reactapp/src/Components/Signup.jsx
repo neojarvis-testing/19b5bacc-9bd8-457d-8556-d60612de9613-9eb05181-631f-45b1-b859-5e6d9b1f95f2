@@ -41,7 +41,6 @@ const Signup = () => {
     };
 
 
-
     const validateForm = () => {
         const errors = {};
         const passwordErrors = validatePassword(formData.password);
@@ -58,7 +57,7 @@ const Signup = () => {
         if (!formData.mobileNumber.trim()) {
             errors.mobileNumber = 'Mobile number is required';
         } else if (!/^\d{10}$/.test(formData.mobileNumber)) {
-            errors.mobileNumber = 'Mobile number must be 10 digits';
+            errors.mobileNumber = 'Mobile number must be 10 digits and no special characters allowed';
         }
         if(!formData.password.trim()){
             errors.password = 'Password is required';
@@ -164,7 +163,10 @@ const Signup = () => {
                                         placeholder="Password"
 
                                     />
-                                    {errors.password && <small className="te" style={{color:'rgb(255, 145, 0)'}}>{errors.password}</small>}
+                                    {errors.password && (
+                                    <ul className="te" style={{ color: 'rgb(255, 145, 0)', paddingLeft: '20px' }}>
+                                    {errors.password.split("\n").map((error, index) => (
+                                    <li key={index}>{error}</li>))}</ul>)}
                                 </div>
                                 <div className="form-group mb-3">
                                     <label htmlFor="confirmPassword" style={{color: 'white'}}>Confirm Password <span className="text-danger">*</span></label>
@@ -203,10 +205,10 @@ const Signup = () => {
                                 <div className="modal show d-block" tabIndex="-1">
                                     <div className="modal-dialog">
                                         <div className="modal-content">
+                                            {/* <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button> */}
                                             <div className="modal-header">
                                                 <h5 className="modal-title">Signup Successful</h5>
                                                 <img src="plant.png" className='plant'></img>
-                                                <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
                                             </div>
                                             <div className="modal-footer">
                                                 <button type="button" className="btn btn-primary" onClick={() => navigate('/')}>Ok</button>
