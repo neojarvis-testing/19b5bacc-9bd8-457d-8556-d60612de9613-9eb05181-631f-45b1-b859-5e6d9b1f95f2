@@ -1,10 +1,16 @@
 .home{
-  background: url('/home/coder/project/workspace/reactapp/public/home.png') no-repeat center center;
+  background: url('/home/coder/project/workspace/reactapp/public/homeBack.png') no-repeat center center;
   background-size: cover;  
   background-position: center;
   height: 100vh;
 }
-
+.bar{
+  background: rgba(255, 228, 196, 0.5);
+}
 .content{
   height: 100vh;
+}
+
+.details{
+  color: #663300;
 }

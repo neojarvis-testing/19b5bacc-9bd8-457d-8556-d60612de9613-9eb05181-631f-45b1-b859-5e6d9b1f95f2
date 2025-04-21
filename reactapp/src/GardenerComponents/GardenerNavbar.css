@@ -28,20 +28,21 @@
   }
 
   .transparent-dropdown .dropdown-menu {
-    background-color: rgba(255, 255, 255, 0.1); /* Transparent background */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Optional: a semi-transparent border */
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3); 
     box-shadow: none; /* Removes default shadow, optional */
   }
   
   .transparent-dropdown .dropdown-item {
-    color: white; /* Ensures text color is white */
+    color: white; 
   }
   
   .transparent-dropdown .dropdown-item:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Slightly less transparent on hover */
-    color: #32cd32; /* Optional: changes text color on hover */
+    background-color: rgba(255, 255, 255, 0.2); 
+    color: #32cd32; 
   }
   .pointer{
     cursor: pointer;
   }
+
   

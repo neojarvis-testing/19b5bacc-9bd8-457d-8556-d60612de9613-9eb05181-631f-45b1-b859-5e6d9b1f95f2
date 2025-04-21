@@ -8,7 +8,7 @@ const getUserRole = () => {
  
   try {
     const decodedToken = jwtDecode(token);
-    return decodedToken.role; // Assuming the role is stored in the 'role' field
+    return decodedToken.role; 
   } catch (error) {
     console.error('Invalid token:', error);
     return null;
@@ -22,7 +22,6 @@ const PrivateRoute = ({ children, requiredRole }) => {
     return <Navigate to="/" replace />;
   }
  
-  // If the user's role does not match the required role, show "Access Denied"
   if (role !== requiredRole) {
     return (
       <div className="text-center pt-5">
