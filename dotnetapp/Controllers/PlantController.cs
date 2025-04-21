@@ -74,7 +74,7 @@ namespace dotnetapp.Controllers
             }
  
             var categoryCheck = await _plantService.UpdatePlant(plantId, plant);
-            if (!categoryCheck)
+            if (categoryCheck==false)
             {
                 return BadRequest("A plant with this category already exists");
             }

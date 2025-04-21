@@ -46,12 +46,16 @@ namespace dotnetapp.Services
         {
             return false;
         }
- 
+      var exists2 = await _context.Plants.FirstOrDefaultAsync(c=>c.Category==plant.Category && c.PlantId!=plantId);
+        if(exists2!=null){
+            return false;
+        }
+      
        
-    if (exists1.Category == plant.Category)
-     {
-    return false;
-    }
+    // if (exists1.Category == plant.Category)
+    //  {
+    // return false;
+    // }
 
         exists1.Name = plant.Name;
         exists1.Category = plant.Category;
