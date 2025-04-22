@@ -75,8 +75,8 @@ const ViewPlant = () => {
 
   return (
     <div className='plant-list'>
-      <div className='blur py-3'>
-        <div className='px-3'>
+      <div className='blur'>
+        <div>
           <GardenerNavbar />
         </div>
       <h2 className=' text-white text-center p-2'>Plants</h2>
@@ -165,7 +165,7 @@ const ViewPlant = () => {
 
 
       {/* Delete Confirmation Popup */}
-        <Modal show={showDeletePopup} onHide={() => setShowDeletePopup(false)}>
+        <Modal show={showDeletePopup} onHide={() => setShowDeletePopup(false)} className='custom-modal '>
           <Modal.Header closeButton>
             <Modal.Title>Confirm Delete</Modal.Title>
           </Modal.Header>
