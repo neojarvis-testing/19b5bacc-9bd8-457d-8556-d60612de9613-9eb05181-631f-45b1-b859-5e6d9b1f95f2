@@ -25,7 +25,7 @@ const HomePage = () => {
 
         <div className='d-flex flex-column justify-content-center align-items-center'>
           <div className='px-5 text-center border border-white w-50'>
-            <span className="details">
+            <span className="details-list">
               Discover and nurture the perfect plants for your space with expert recommendations and personalized gardening tips. Browse
               get tailored advice to make your gardening journey enjoyable and successful.
             </span>
