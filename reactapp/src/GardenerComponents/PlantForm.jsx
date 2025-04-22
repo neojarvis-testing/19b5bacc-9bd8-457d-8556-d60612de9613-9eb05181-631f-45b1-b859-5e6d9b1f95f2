@@ -166,13 +166,13 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
 
     return (
         <div className="card">
-            <div className='navB px-3 m-2'><GardenerNavbar /></div>
+            <div className='navB'><GardenerNavbar /></div>
             <div className="card mx-auto" style={{ maxWidth: '600px', marginTop: '60px' }}>
                 <div className="card-body p-4">
                     <h2 style={{ color: 'white' }} className="card-title text-center mb-4">
                         {isEditing ? 'Edit Plant' : 'Create New Plant'}
                     </h2>
-                    {formError && <div className="alert alert-danger">{formError}</div>}
+
                     <form onSubmit={handleSubmit}>
                         <div className="form-group mb-3">
                             <label htmlFor="name" style={{ color: 'white' }}>Name<span className="text-danger">*</span></label>
@@ -251,6 +251,7 @@ const PlantForm = ({ isEditing, initialData = {} }) => {
                                 </div>
                             )}
                         </div>
+                        {formError && <div className="alert alert-danger">{formError}</div>}
                         <button style={{ color: '#00ABFF', fontSize: '20px' }} className="btn btn-link mb-3" onClick={() => navigate(-1)}>
                             Back
                         </button>

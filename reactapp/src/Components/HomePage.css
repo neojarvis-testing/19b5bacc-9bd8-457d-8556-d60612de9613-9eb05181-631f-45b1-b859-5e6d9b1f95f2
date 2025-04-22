@@ -1,5 +1,5 @@
 .home{
-  background: url('/home/coder/project/workspace/reactapp/public/homeBack.png') no-repeat center center;
+  background: url('/home/coder/project/workspace/reactapp/public/homePage.png') no-repeat center center;
   background-size: cover;  
   background-position: center;
   height: 100vh;
@@ -13,4 +13,14 @@
 
 .details{
   color: #663300;
+}
+.details-list{
+  color: #000;
+  font-weight: 900;
+}
+.heading{
+  font-size: 60px;
+  color: #663300;
+  font-family: math;
+  font-weight: bold;
 }

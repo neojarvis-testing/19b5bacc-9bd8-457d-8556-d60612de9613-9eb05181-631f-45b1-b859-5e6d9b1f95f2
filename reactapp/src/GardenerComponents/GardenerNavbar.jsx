@@ -22,12 +22,12 @@ const GardenerNavbar = () => {
   const handleShow = () => setShow(true);
   
   return (
-    <div className='w-100' style={{backgroundColor: isHomeRoute || isAdd ? "rgba(255,228,196,0.7)" : "", borderRadius: "10px"}}>
+    <div className='w-100'>
       
       <nav className="navbar navbar-expand-lg navbar-dark ">
         <div className="container-fluid">
         <div className='d-flex gap-2 align-items-center'>
-            <img src="./sunflower.svg" alt="nav-icon" className='logo'/>
+            <img src="/sunflower.svg" alt="nav-icon" className='logo'/>
           <h2 className="text-white">Garden Mentor</h2>
           </div>
           <div className="d-flex justify-content-between align-items-center gap-4 font-weight-bold">
@@ -46,7 +46,7 @@ const GardenerNavbar = () => {
         </div>
       </nav>
 
-      <Modal show={show} onHide={handleClose} centered>
+      <Modal show={show} onHide={handleClose} centered className='custom-modal'>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Logout</Modal.Title>
         </Modal.Header>
