@@ -27,7 +27,7 @@ const GardenerNavbar = () => {
       <nav className="navbar navbar-expand-lg navbar-dark ">
         <div className="container-fluid">
         <div className='d-flex gap-2 align-items-center'>
-            <img src="./sunflower.svg" alt="nav-icon" className='logo'/>
+            <img src="/sunflower.svg" alt="nav-icon" className='logo'/>
           <h2 className="text-white">Garden Mentor</h2>
           </div>
           <div className="d-flex justify-content-between align-items-center gap-4 font-weight-bold">
