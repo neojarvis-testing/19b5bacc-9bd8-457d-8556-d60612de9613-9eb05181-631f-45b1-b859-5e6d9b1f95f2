@@ -64,7 +64,7 @@ const App = () => {
           }
         />
         <Route
-          path="/cview"
+          path="/customer-view"
           element={
             <PrivateRoute requiredRole="Customer">
               <CustomerViewPlant />

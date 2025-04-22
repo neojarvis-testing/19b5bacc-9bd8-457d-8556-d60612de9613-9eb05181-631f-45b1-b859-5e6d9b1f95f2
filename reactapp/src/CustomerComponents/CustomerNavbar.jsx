@@ -41,7 +41,7 @@ const CustomerNavbar = () => {
                 Plant
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item href="/cview">View Plant</Dropdown.Item>
+                <Dropdown.Item href="/customer-view">View Plant</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
 
